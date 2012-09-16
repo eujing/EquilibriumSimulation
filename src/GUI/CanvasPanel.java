@@ -7,25 +7,20 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class CanvasPanel extends JPanel implements Runnable {
-	private static final boolean DEBUG_QUADS = true;
-	private static final boolean DEBUG_QUERIES = true;
+	private static final boolean DEBUG_QUADS = false;
+	private static final boolean DEBUG_QUERIES = false;
 	private boolean runSimulation;
-	private float width;
-	private float height;
 	private double maxFps;
 	private double currentFps;
 	private Thread simLoop;
-	private Physics pEngine;
+	public Physics pEngine;
 	
 	public CanvasPanel (int width, int height, double fps) {
-		this.width = (float) width;
-		this.height = (float) height;
 		this.setPreferredSize (new Dimension (width, height));
 		this.maxFps = fps;
 		

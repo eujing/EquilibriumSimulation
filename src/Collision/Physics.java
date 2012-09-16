@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Physics {
 	private static final boolean DEBUG_ENERGY = false;
+	private static final boolean DEBUG_COLLISION = false;
 	private float width;
 	private float height;
 	private QuadTree qTree;
@@ -146,9 +147,9 @@ public class Physics {
 					updateNextPosition (o);
 					qTree.update (o);
 
-					if (p.collidesWith (o)) {
-					 System.out.println ("oh no");
-					 }
+					if (DEBUG_COLLISION && p.collidesWith (o)) {
+						System.out.println ("oh no");
+					}
 					
 				}
 			}

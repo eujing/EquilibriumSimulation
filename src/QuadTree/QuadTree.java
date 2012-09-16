@@ -5,10 +5,9 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 public class QuadTree<T extends QuadTreeObject> {
-
-	private boolean debugInsert = false;
-	private boolean debugDelete = false;
-	private boolean debugUpdate = false;
+	private static final boolean DEBUG_INSERT = false;
+	private static final boolean DEBUG_DELETE = false;
+	private static final boolean DEBUG_UPDATE = false;
 	private float w;
 	private float h;
 	public QuadTreeNode treeHead;
@@ -35,7 +34,7 @@ public class QuadTree<T extends QuadTreeObject> {
 	public ArrayList<Shape> getLines (QuadTreeNode node) {
 		ArrayList<Shape> lines = new ArrayList<> ();
 
-		if (node.childNodes != null) {
+		if (node != null && node.childNodes != null) {
 			lines.add (new Line2D.Float (node.getX (), (2 * node.getY () + node.getH ()) / 2, node.getX () + node.getW (), (2 * node.getY () + node.getH ()) / 2));
 			lines.add (new Line2D.Float ((2 * node.getX () + node.getW ()) / 2, node.getY (), (2 * node.getX () + node.getW ()) / 2, node.getY () + node.getH ()));
 
@@ -49,7 +48,7 @@ public class QuadTree<T extends QuadTreeObject> {
 	}
 
 	private void logInsert (String message) {
-		if (debugInsert) {
+		if (DEBUG_INSERT) {
 			System.out.println ("[Insert] " + message);
 		}
 	}
@@ -143,7 +142,7 @@ public class QuadTree<T extends QuadTreeObject> {
 	}
 
 	private void logDelete (String message) {
-		if (debugDelete) {
+		if (DEBUG_DELETE) {
 			System.out.println ("[Delete] " + message);
 		}
 	}
@@ -184,7 +183,7 @@ public class QuadTree<T extends QuadTreeObject> {
 	}
 
 	private void logUpdate (String message) {
-		if (debugUpdate) {
+		if (DEBUG_UPDATE) {
 			System.out.println ("[Update] " + message);
 		}
 	}
