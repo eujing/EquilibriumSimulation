@@ -2,7 +2,7 @@ package Collision;
 
 import QuadTree.*;
 
-public class Particle extends QuadTreeObject {
+public class Particle extends QuadTreeObject implements ICollidable {
 	private float x;
 	private float y;
 	private Vector2D v;
@@ -44,6 +44,9 @@ public class Particle extends QuadTreeObject {
 	public boolean hasBias () {
 		return this.hasBias;
 }
+	
+	@Override
+	public void afterCollisionHandling (Particle p, Particle o) {}
 	
 	@Override
 	public String toString () {

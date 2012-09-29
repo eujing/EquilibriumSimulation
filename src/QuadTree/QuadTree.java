@@ -150,7 +150,7 @@ public class QuadTree<T extends QuadTreeObject> {
 	/*
 	 * Preserves the tree so a deeper search can be carried out from the current node
 	 */
-	public void deleteDown (T object) {
+	private void deleteDown (T object) {
 		QuadTreeNode node = object.getNode ();
 
 		//Remove from tree
@@ -166,7 +166,7 @@ public class QuadTree<T extends QuadTreeObject> {
 	/*
 	 * Cleans up and collapses nodes that are no longer useful after a deleteDown (during reallocation)
 	 */
-	public QuadTreeNode deleteUp (T object) {
+	private QuadTreeNode deleteUp (T object) {
 		QuadTreeNode node = object.getNode ();
 
 		//Collapse unused children to parent

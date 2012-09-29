@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="pCanvas" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="pCanvas" max="32767" attributes="0"/>
+          <Component id="jPanel2" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="pCanvas">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="912" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
+    <Container class="javax.swing.JPanel" name="jPanel2">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="sliderConcA" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="sliderConcB" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="sliderTemp" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="sliderPressure" alignment="2" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                          <Component id="lblData" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                          <Component id="lblParameters" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="bStart" min="-2" pref="59" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bStop" min="-2" pref="59" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bReset" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblSliderConcA" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblSliderConcB" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblTemp" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblPressure" alignment="0" min="-2" pref="86" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblKe" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblConcC" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblConcB" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblConcA" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="concA" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="concB" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="concC" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="rxnQuotient" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblParameters" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                  <Component id="lblSliderConcA" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="sliderConcA" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblSliderConcB" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="sliderConcB" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblTemp" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="sliderTemp" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblPressure" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="sliderPressure" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="lblData" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblConcA" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="concA" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblConcB" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="concB" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblConcC" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="concC" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblKe" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rxnQuotient" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="247" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="bStart" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bStop" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bReset" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblTemp">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Temperature (K)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSlider" name="sliderTemp">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPressure">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pressure (atm)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSlider" name="sliderPressure">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSliderConcA">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="A Concentration (M)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSlider" name="sliderConcA">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSliderConcB">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="B Concentration (M)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSlider" name="sliderConcB">
+        </Component>
+        <Component class="javax.swing.JButton" name="bStart">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Start"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bStop">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Stop"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblParameters">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Parameters:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblData">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Data:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblConcA">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Concentration of A ="/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="concA">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="[A]"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblConcB">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Concentration of B ="/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="concB">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="[B]"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblConcC">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Concentration of C ="/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="concC">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="[C]"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblKe">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reaction Quotient = "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="rxnQuotient">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="{Q}"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bReset">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reset"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

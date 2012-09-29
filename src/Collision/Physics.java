@@ -3,13 +3,13 @@ package Collision;
 import QuadTree.*;
 import java.util.ArrayList;
 
-public class Physics {
+public class Physics<T extends Particle> {
 	private static final boolean DEBUG_ENERGY = false;
 	private static final boolean DEBUG_COLLISION = false;
 	private float width;
 	private float height;
 	private QuadTree qTree;
-	private ArrayList <Particle> particles;
+	private ArrayList <T> particles;
 	
 	public Physics (float width, float height) {
 		this.width = width;
@@ -19,14 +19,19 @@ public class Physics {
 		particles = new ArrayList<> ();
 	}
 	
-	public void addParticle (Particle p) {
+	public void addParticle (T p) {
 		particles.add (p);
 		qTree.insert (p);
 	}
 	
+	public void deleteAllParticles () {
+		particles.clear ();
+		qTree.createTree ();
+	}
+	
 	private float CalculateSystemEnergy () {
 		float ke = 0;
-		for (Particle tmp : particles) {
+		for (T tmp : particles) {
 			float m = tmp.getR () * tmp.getR ();
 			ke += 0.5 * m * tmp.getVelocity ().getMagnitude () * tmp.getVelocity ().getMagnitude ();
 		}
@@ -39,35 +44,38 @@ public class Physics {
 		}
 	}
 	
-	private void updateNextPosition (Particle p) {
+	private void updateNextPosition (T p) {
 		p.setPosition (p.getNewX (), p.getNewY ());
 	}
 	
-	private void reversePosition (Particle p) {
+	private void reversePosition (T p) {
 		p.setPosition (p.getX () - p.getVelocity ().dx, p.getY () - p.getVelocity ().dy);
 	}
 	
-	private void updateBoundryCheck (Particle p) {
-		if (p.getX () - p.getR () < 0 || p.getX () + p.getR () > width) {
-			reversePosition (p);
-			p.setVelocity (-p.getVelocity ().dx, p.getVelocity ().dy);
+	private void updateBoundryCheck (T p) {
+		Vector2D v = p.getVelocity ();
+		float r = p.getR ();
+		if ((p.getX () - r < 0 && v.dx < 0) || 
+			(p.getX () + r > width && v.dx > 0)) {
+			p.setVelocity (-v.dx, v.dy);
 			updateNextPosition (p);
 		}
 		
-		if (p.getY () - p.getR () < 0 || p.getY () + p.getR () > height) {
-			reversePosition (p);
-			p.setVelocity (p.getVelocity ().dx, -p.getVelocity ().dy);
+		v = p.getVelocity ();
+		if ((p.getY () - r < 0 && v.dy < 0) || 
+			(p.getY () + r > height && v.dy > 0)) {
+			p.setVelocity (v.dx, -v.dy);
 			updateNextPosition (p);
 		}
 	}
 	
-	private void updateCollisionCheck (Particle p) {
+	private void updateCollisionCheck (T p) {
 		//Collision culling here
-		ArrayList<Particle> possibleColliders = qTree.getObjectsWithinBound (p);
+		ArrayList<T> possibleColliders = qTree.getObjectsWithinBound (p);
 		//System.out.println ("Reduced collision checks to " +  ((double) possibleColliders.size () / (double) (particles.size () - 1) * 100) + "%");
 
 		//Collision
-		for (Particle o : possibleColliders) {
+		for (T o : possibleColliders) {
 			if (p != o) {
 				if (p.collidesWith (o)) {
 					reversePosition (p);
@@ -83,7 +91,6 @@ public class Physics {
 					distance = (float) Math.sqrt (po_dx * po_dx + po_dy * po_dy);
 					sinPhi = po_dy / distance;
 					cosPhi = po_dx / distance;
-					//System.out.println ("phi = " + phi);
 
 					//Transform velocities to rotated coordinate system
 					Vector2D pVelRefInit = new Vector2D (
@@ -151,13 +158,15 @@ public class Physics {
 						System.out.println ("oh no");
 					}
 					
+					p.afterCollisionHandling (p, o);
+					
 				}
 			}
 		}
 	}
 	
 	public void updateParticles () {
-		for (Particle p : particles) {
+		for (T p : particles) {
 			updateNextPosition (p);
 			updateBoundryCheck (p);
 			qTree.update (p);
@@ -169,7 +178,7 @@ public class Physics {
 		}
 	}
 	
-	public ArrayList <Particle> getParticles () {
+	public ArrayList <T> getParticles () {
 		return particles;
 	}
 	
