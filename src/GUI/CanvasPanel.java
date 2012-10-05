@@ -1,5 +1,6 @@
 package GUI;
 
+import Chemistry.*;
 import Collision.*;
 import QuadTree.*;
 import java.awt.Color;
@@ -21,32 +22,33 @@ public class CanvasPanel extends JPanel implements Runnable {
 	private double maxFps;
 	private double currentFps;
 	private Thread simLoop;
-	public Physics pEngine;
+	public Physics <Molecule> pEngine; //ReactionManager
 
 	public CanvasPanel (int width, int height, double fps) {
 		this.setPreferredSize (new Dimension (width, height));
 		this.maxFps = fps;
-		pEngine = new Physics (width, height);
+		pEngine = new Physics <> (width, height);
 		this.setBackground (Color.WHITE);
 	}
 	
-	public void addTestParticles () {
+	/*public void addTestParticles () {
 		pEngine.addParticle (new Particle (90, 150, 1, 0, 10));
 		pEngine.addParticle (new Particle (20, 150, 2, 0, 20));
 		pEngine.addParticle (new Particle (200, 150, -2, 0, 40));
 		pEngine.addParticle (new Particle (380, 150, 4, 0, 20));
 		pEngine.addParticle (new Particle (20, 20, 5, 1, 20));
-	}
+	}*/
 	
-	public void addNRandomParticles (int n) {
+	public void addNRandomParticles (int n, int type) {
 		Random rand = new Random ();
-        for(int i = 0; i < n; i++){
-			pEngine.addParticle (new Particle (
-				this.getWidth () * haltonSequence (i, 2), 
-				this.getHeight () * haltonSequence (i, 3), 
-				rand.nextInt (5) - 2, 
-				rand.nextInt (5) - 2, 
-				5));
+        for(int i = 0; i < n; i++) {
+			//Change to ReactionManager when implemented
+			pEngine.addParticle (new Molecule (
+				this.getWidth () * rand.nextFloat (), 
+				this.getHeight () * rand.nextFloat (), 
+				(rand.nextInt (3) - 1), 
+				(rand.nextInt (3) - 1),
+				type));
 		}
 	}
 
@@ -119,7 +121,7 @@ public class CanvasPanel extends JPanel implements Runnable {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		ArrayList<Particle> particles = pEngine.getParticles ();
+		ArrayList <Molecule> molecules = pEngine.getParticles ();
 
 		if (CanvasPanel.DEBUG_QUADS) {
 			ArrayList<Shape> lines = pEngine.getQuadTree ().getLines ();
@@ -128,10 +130,10 @@ public class CanvasPanel extends JPanel implements Runnable {
 			}
 		}
 
-		if (particles.size () > 0) {
-			for (int i = 0; i < particles.size (); i++) {
+		if (molecules.size () > 0) {
+			for (int i = 0; i < molecules.size (); i++) {
 
-				Particle p = particles.get (i);
+				Molecule p = molecules.get (i);
 				if (DEBUG_QUERIES) {
 					QuadTreeQuery query = p.getQuery ();
 					g2.drawRect ((int) query.x, (int) query.y, (int) query.w, (int) query.h);
@@ -140,12 +142,13 @@ public class CanvasPanel extends JPanel implements Runnable {
 				int x = (int) (p.getX () - p.getR () + 0.5f), y = (int) (p.getY () - p.getR () + 0.5f);
 				int l = (int) (p.getR () * 2 + 0.5f);
 				
-				g2.setColor (Color.black);
+				g2.setColor (p.getColor ());
 				g2.drawOval (x, y, l, l);
 				g2.fillOval (x, y, l, l);
 			}
 		}
-
+		
+		g2.setColor (Color.black);
 		DecimalFormat df = new DecimalFormat ("0.##");
 		g2.drawString ("Fps: " + df.format (currentFps), 10, 10);
 	}

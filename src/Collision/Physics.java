@@ -3,7 +3,7 @@ package Collision;
 import QuadTree.*;
 import java.util.ArrayList;
 
-public class Physics<T extends Particle> {
+public class Physics <T extends Particle> {
 	private static final boolean DEBUG_ENERGY = false;
 	private static final boolean DEBUG_COLLISION = false;
 	private float width;
@@ -72,10 +72,10 @@ public class Physics<T extends Particle> {
 	private void updateCollisionCheck (T p) {
 		//Collision culling here
 		ArrayList<T> possibleColliders = qTree.getObjectsWithinBound (p);
-		//System.out.println ("Reduced collision checks to " +  ((double) possibleColliders.size () / (double) (particles.size () - 1) * 100) + "%");
 
 		//Collision
-		for (T o : possibleColliders) {
+		for (int i = 0; i < possibleColliders.size (); i++) {
+			T o = possibleColliders.get (i);
 			if (p != o) {
 				if (p.collidesWith (o)) {
 					reversePosition (p);
@@ -158,7 +158,10 @@ public class Physics<T extends Particle> {
 						System.out.println ("oh no");
 					}
 					
-					p.afterCollisionHandling (p, o);
+					Particle[] buffer = {p, o};
+					p.afterCollisionHandling (buffer);
+					p.replaceWith (buffer[0]);
+					o.replaceWith (buffer[1]);
 					
 				}
 			}
@@ -171,10 +174,7 @@ public class Physics<T extends Particle> {
 			updateBoundryCheck (p);
 			qTree.update (p);
 			updateCollisionCheck (p);
-			//Done
 			updateNextPosition (p);
-			//System.out.println ("Objects in tree: " + qTree.treeHead.getAllObjectsUnderNode ().size () + " / " + particles.size ());
-			//System.out.println (qTree);
 		}
 	}
 	

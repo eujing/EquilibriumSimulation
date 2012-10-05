@@ -19,6 +19,9 @@ public class MainWindow extends javax.swing.JFrame {
 		canvas = new CanvasPanel (pCanvas.getWidth (), pCanvas.getHeight (), 60);
 		pCanvas.setLayout (new BorderLayout ());
 		pCanvas.add (canvas, BorderLayout.CENTER);
+		this.concA.setForeground (Molecule.COLOR_A);
+		this.concB.setForeground (Molecule.COLOR_B);
+		this.concC.setForeground (Molecule.COLOR_C);
 		initSliders ();
 		initButtons ();
 		canvas.addNRandomParticles (sliderConcA.getValue (), Molecule.MOLECULE_A);
