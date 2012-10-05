@@ -1,26 +1,28 @@
 package GUI;
 
+import Chemistry.Molecule;
 import com.nilo.plaf.nimrod.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.UIManager;
 
-
 public class MainWindow extends javax.swing.JFrame {
+
 	private static final int maxMolecules = 500;
 	private static final int maxTemperature = 1000;
 	private static final int maxPressure = 10;
 	private CanvasPanel canvas;
-	
+
 	public MainWindow () {
 		initComponents ();
 		canvas = new CanvasPanel (pCanvas.getWidth (), pCanvas.getHeight (), 60);
-		//pCanvas.setOpaque (false);
 		pCanvas.setLayout (new BorderLayout ());
 		pCanvas.add (canvas, BorderLayout.CENTER);
 		initSliders ();
 		initButtons ();
+		canvas.addNRandomParticles (sliderConcA.getValue (), Molecule.MOLECULE_A);
+		canvas.addNRandomParticles (sliderConcB.getValue (), Molecule.MOLECULE_B);
 	}
 
 	@SuppressWarnings ("unchecked")
@@ -221,6 +223,7 @@ public class MainWindow extends javax.swing.JFrame {
 		sliderTemp.setValue (298);
 		sliderPressure.setValue (1);
 	}
+
 	private void initButtons () {
 		bStart.addActionListener (new ActionListener () {
 			@Override
@@ -228,25 +231,27 @@ public class MainWindow extends javax.swing.JFrame {
 				canvas.startSimulation ();
 			}
 		});
-		
+
 		bStop.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				canvas.stopSimulation ();
 			}
 		});
-		
+
 		bReset.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				canvas.stopSimulation ();
 				canvas.pEngine.deleteAllParticles ();
-				canvas.addNRandomParticles (sliderConcA.getValue () + sliderConcB.getValue ());
+				canvas.addNRandomParticles (sliderConcA.getValue (), Molecule.MOLECULE_A);
+				canvas.addNRandomParticles (sliderConcB.getValue (), Molecule.MOLECULE_B);
 				canvas.repaint ();
 				System.out.println (sliderConcA.getValue () + sliderConcB.getValue ());
 			}
 		});
 	}
+
 	public static void main (String args[]) {
 		try {
 			NimRODTheme nrTheme = new NimRODTheme ("Resources/DarkGrey.theme");
@@ -257,7 +262,7 @@ public class MainWindow extends javax.swing.JFrame {
 		catch (javax.swing.UnsupportedLookAndFeelException ex) {
 			java.util.logging.Logger.getLogger (MainWindow.class.getName ()).log (java.util.logging.Level.SEVERE, null, ex);
 		}
-		
+
 		java.awt.EventQueue.invokeLater (new Runnable () {
 			@Override
 			public void run () {

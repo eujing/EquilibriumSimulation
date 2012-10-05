@@ -137,7 +137,7 @@ public class Physics<T extends Particle> {
 						}
 					}*/
 
-
+					
 					//Transform velocities back to original system
 					Vector2D pVelFinal = new Vector2D (
 						(pVelRefFinal.dx * cosPhi - pVelRefFinal.dy * sinPhi),
