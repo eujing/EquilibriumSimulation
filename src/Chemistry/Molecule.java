@@ -24,7 +24,7 @@ public class Molecule extends Particle {
 		super (x, y, dx, dy, (float) Math.sqrt (Molecule.matchMass (type)));
 		this.moleculeType = type;
 		this.color = Molecule.matchColor (moleculeType);
-		this.mass = Molecule.matchMass (type);
+		this.setMass (Molecule.matchMass (type));
 	}
 	
 	public static Color matchColor (int moleculeType) {
@@ -65,20 +65,17 @@ public class Molecule extends Particle {
 		return this.mass;
 	}
 	
-	
-	public void replaceWith (Molecule o) {
-		super.replaceWith ((Particle) o);
-		this.color = o.color;
-		this.mass = o.mass;
-		this.moleculeType = o.moleculeType;
+	public void setMass (float mass) {
+		this.mass = mass;
+		this.setR ((float) Math.sqrt (mass));
 	}
 	
 	private void convertTo (int moleculeType) {
 		float newMass = Molecule.matchMass (moleculeType);
-		float velRatio = this.mass / newMass;
-		this.setVelocity (velRatio * this.getVelocity ().dx, velRatio * this.getVelocity ().dy);
-		this.mass = newMass;
-		this.setR ((float) Math.sqrt (newMass));
+		float velRatio = (float) Math.sqrt (this.mass / newMass);
+		Vector2D oldv = this.getVelocity ();
+		this.setVelocity (velRatio * oldv.dx, velRatio * oldv.dy);
+		this.setMass (newMass);
 		this.color = matchColor (moleculeType);
 		this.moleculeType = moleculeType;
 	}

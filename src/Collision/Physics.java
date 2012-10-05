@@ -4,7 +4,7 @@ import QuadTree.*;
 import java.util.ArrayList;
 
 public class Physics <T extends Particle> {
-	private static final boolean DEBUG_ENERGY = false;
+	private static final boolean DEBUG_ENERGY = true;
 	private static final boolean DEBUG_COLLISION = false;
 	private float width;
 	private float height;
@@ -91,6 +91,11 @@ public class Physics <T extends Particle> {
 					distance = (float) Math.sqrt (po_dx * po_dx + po_dy * po_dy);
 					sinPhi = po_dy / distance;
 					cosPhi = po_dx / distance;
+					
+					float target = p.getR () + o.getR ();
+					float factor = (distance - target) / distance * 0.5f;
+					p.setPosition (p.getX () - po_dx * factor, p.getY () - po_dy * factor);
+					o.setPosition (o.getX () + po_dx * factor, o.getY () + po_dy * factor);
 
 					//Transform velocities to rotated coordinate system
 					Vector2D pVelRefInit = new Vector2D (
