@@ -16,7 +16,7 @@ public class GraphPanel extends JPanel implements ActionListener {
 
 	private static final int padding = 10;
 	private static final int border = 20;
-	private static final int sampleSize = 100;
+	private static final int sampleSize = 200;
 	private int width;
 	private int height;
 	private int maxY;
@@ -96,36 +96,20 @@ public class GraphPanel extends JPanel implements ActionListener {
 
 			//Trend buffer
 			if (set.nNewPoints < sampleSize) {
+				trendBuffers[i].add (0f);
 				set.currSum += nextPoint;
 				set.nNewPoints++;
-				trendBuffers[i].add (0f);
 			}
 			else {
-				float newAvg = set.currSum / set.nNewPoints;
-				float w = trendBuffers[i].size () - set.prevIndex;
-				for (int j = set.prevIndex; j < trendBuffers[i].size (); j++) {
-					trendBuffers[i].set (j, linearInterpolation (
-						set.prevIndex,
-						set.prevAvg,
-						trendBuffers[i].size (),
-						newAvg,
-						j));
-				}
-				trendBuffers[i].add (newAvg);
-				set.prevAvg = newAvg;
-				set.prevIndex = trendBuffers[i].size ();
-				set.currSum = 0;
-				set.nNewPoints = 0;
+				set.currSum += nextPoint;
+				set.currSum -= buffers[i].get (buffers[i].size () - sampleSize);
+				trendBuffers[i].add (set.currSum / sampleSize);
 			}
+			
 			if (trendBuffers[i].size () >= bufferSize) {
 				trendBuffers[i].remove (0);
-				set.prevIndex--;
 			}
 		}
-	}
-
-	private float linearInterpolation (float x1, float y1, float x2, float y2, float xn) {
-		return (y2 - y1) / (x2 - x1) * (xn - x1) + y1;
 	}
 
 	public void startPlotting () {
