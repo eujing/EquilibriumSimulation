@@ -22,6 +22,7 @@ public class MainWindow extends javax.swing.JFrame {
 	public static final int DEFAULT_PRESSURE = 1;
 	private CanvasPanel canvas;
 	private GraphPanel graph;
+	private boolean firstRun = true;
 
 	public MainWindow () {
 		initComponents ();
@@ -30,9 +31,6 @@ public class MainWindow extends javax.swing.JFrame {
 		initSliders ();
 		initButtons ();
 		this.pack ();
-		
-		canvas.addNRandomParticles (sliderConcA.getValue (), Molecule.MOLECULE_A);
-		canvas.addNRandomParticles (sliderConcB.getValue (), Molecule.MOLECULE_B);
 	}
 
 	@SuppressWarnings ("unchecked")
@@ -278,10 +276,10 @@ public class MainWindow extends javax.swing.JFrame {
 		this.concB.setForeground (Molecule.COLOR_B);
 		this.concC.setForeground (Molecule.COLOR_C);
 	}
-	
+
 	private void initGraph () {
 		DataSet[] dataset = {
-			new DataSet (Color.RED) {
+			new DataSet (Color.BLUE) {
 				@Override
 				public float getNextDataPoint () {
 					return canvas.rEngine.calcReactionQuotient ();
@@ -294,12 +292,20 @@ public class MainWindow extends javax.swing.JFrame {
 		pGraph.setLayout (new BorderLayout ());
 		pGraph.add (graph, BorderLayout.CENTER);
 	}
-	
+
 	private void initSliders () {
+		sliderConcA.setMinimum (1);
 		sliderConcA.setMaximum (maxMolecules / 2);
+
+		sliderConcB.setMinimum (1);
 		sliderConcB.setMaximum (maxMolecules / 2);
+
+		sliderTemp.setMinimum (1);
 		sliderTemp.setMaximum (maxTemperature);
+
+		sliderPressure.setMinimum (1);
 		sliderPressure.setMaximum (maxPressure);
+
 		sliderConcA.setValue (DEFAULT_CONC);
 		lblValueConcA.setText ("" + DEFAULT_CONC);
 		sliderConcB.setValue (DEFAULT_CONC);
@@ -308,7 +314,23 @@ public class MainWindow extends javax.swing.JFrame {
 		lblValueTemp.setText ("" + DEFAULT_TEMP);
 		sliderPressure.setValue (DEFAULT_PRESSURE);
 		lblValuePressure.setText ("" + DEFAULT_PRESSURE);
-		
+
+		sliderConcA.addChangeListener (new ChangeListener () {
+			@Override
+			public void stateChanged (ChangeEvent e) {
+				JSlider source = (JSlider) e.getSource ();
+				lblValueConcA.setText ("" + source.getValue ());
+			}
+		});
+
+		sliderConcB.addChangeListener (new ChangeListener () {
+			@Override
+			public void stateChanged (ChangeEvent e) {
+				JSlider source = (JSlider) e.getSource ();
+				lblValueConcB.setText ("" + source.getValue ());
+			}
+		});
+
 		sliderTemp.addChangeListener (new ChangeListener () {
 			@Override
 			public void stateChanged (ChangeEvent e) {
@@ -317,7 +339,7 @@ public class MainWindow extends javax.swing.JFrame {
 				canvas.rEngine.setTemperature (source.getValue ());
 			}
 		});
-		
+
 		sliderPressure.addChangeListener (new ChangeListener () {
 			@Override
 			public void stateChanged (ChangeEvent e) {
@@ -332,6 +354,11 @@ public class MainWindow extends javax.swing.JFrame {
 		bStart.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
+				if (firstRun) {
+					canvas.addNRandomParticles (sliderConcA.getValue (), sliderTemp.getValue (), sliderPressure.getValue (), Molecule.MOLECULE_A);
+					canvas.addNRandomParticles (sliderConcB.getValue (), sliderTemp.getValue (), sliderPressure.getValue (), Molecule.MOLECULE_B);
+					firstRun = false;
+				}
 				canvas.startSimulation ();
 				graph.startPlotting ();
 			}
@@ -351,8 +378,8 @@ public class MainWindow extends javax.swing.JFrame {
 				canvas.stopSimulation ();
 				graph.stopPlotting ();
 				canvas.rEngine.pEngine.deleteAllParticles ();
-				canvas.addNRandomParticles (sliderConcA.getValue (), Molecule.MOLECULE_A);
-				canvas.addNRandomParticles (sliderConcB.getValue (), Molecule.MOLECULE_B);
+				canvas.addNRandomParticles (sliderConcA.getValue (), sliderTemp.getValue (), sliderPressure.getValue (), Molecule.MOLECULE_A);
+				canvas.addNRandomParticles (sliderConcB.getValue (), sliderTemp.getValue (), sliderPressure.getValue (), Molecule.MOLECULE_B);
 				canvas.repaint ();
 				System.out.println (sliderConcA.getValue () + sliderConcB.getValue ());
 			}

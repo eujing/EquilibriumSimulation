@@ -15,7 +15,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 public class CanvasPanel extends JPanel implements Runnable {
-
+	private static final float vMultiplier = 2;
 	private static final boolean DEBUG_QUADS = false;
 	private static final boolean DEBUG_QUERIES = false;
 	private boolean runSimulation;
@@ -31,22 +31,16 @@ public class CanvasPanel extends JPanel implements Runnable {
 		this.setBackground (Color.WHITE);
 	}
 	
-	/*public void addTestParticles () {
-		pEngine.addParticle (new Particle (90, 150, 1, 0, 10));
-		pEngine.addParticle (new Particle (20, 150, 2, 0, 20));
-		pEngine.addParticle (new Particle (200, 150, -2, 0, 40));
-		pEngine.addParticle (new Particle (380, 150, 4, 0, 20));
-		pEngine.addParticle (new Particle (20, 20, 5, 1, 20));
-	}*/
-	
-	public void addNRandomParticles (int n, int type) {
+	public void addNRandomParticles (int n, float temp, int pressure, int type) {
 		Random rand = new Random ();
+		System.out.println (pressure / MainWindow.DEFAULT_PRESSURE);
+		float factor = vMultiplier * (float) Math.sqrt (temp / MainWindow.DEFAULT_TEMP) * (float) Math.sqrt ((double) pressure / (double) MainWindow.DEFAULT_PRESSURE);
         for(int i = 0; i < n; i++) {
 			rEngine.pEngine.addParticle (new Molecule (
 				this.getWidth () * rand.nextFloat (), 
 				this.getHeight () * rand.nextFloat (), 
-				(rand.nextInt (3) - 1) * 2, 
-				(rand.nextInt (3) - 1) * 2,
+				(rand.nextInt (3) - 1) * factor, 
+				(rand.nextInt (3) - 1) * factor,
 				type));
 		}
 	}
@@ -69,7 +63,6 @@ public class CanvasPanel extends JPanel implements Runnable {
 		if (!runSimulation) {
 			runSimulation = true;
 			(simLoop = new Thread (this)).start ();
-			System.out.println (rEngine.pEngine.getParticles ().size ());
 		}
 	}
 
@@ -85,7 +78,6 @@ public class CanvasPanel extends JPanel implements Runnable {
 		double maxFrameTime = 1000.0 / maxFps;
 		int frames = 0;
 		double lastPurgeTime = System.currentTimeMillis ();
-		System.out.println ("Max fps " + (1000.0 / maxFrameTime));
 
 		while (runSimulation) {
 			startTime = System.currentTimeMillis ();
