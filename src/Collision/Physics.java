@@ -92,6 +92,7 @@ public class Physics <T extends Particle> {
 					sinPhi = po_dy / distance;
 					cosPhi = po_dx / distance;
 					
+					//Push apart
 					float target = p.getR () + o.getR ();
 					float factor = (distance - target) / distance * 0.5f;
 					p.setPosition (p.getX () - po_dx * factor, p.getY () - po_dy * factor);
@@ -114,34 +115,6 @@ public class Physics <T extends Particle> {
 					Vector2D oVelRefFinal = new Vector2D (
 						(oVelRefInit.dx * (oMass - pMass) + 2 * pMass * pVelRefInit.dx) / (pMass + oMass),
 						oVelRefInit.dy);
-
-					//Will not exit penetration in 1 update, push apart with velocity bias which is valid for 2 updates only
-					/*float scale;
-					float minDistance = p.getR () + o.getR ();
-					float horizontalIncrease = (pVelRefFinal.dx < 0 ? -pVelRefFinal.dx : pVelRefFinal.dx)
-											   + (oVelRefFinal.dx < 0 ? -oVelRefFinal.dx : oVelRefFinal.dx);
-					
-					if (distance + horizontalIncrease < minDistance) {
-						scale = 1 - (minDistance - distance) / horizontalIncrease;
-						Vector2D pBias = new Vector2D (pVelRefFinal.dx * scale, 0);
-						Vector2D oBias = new Vector2D (oVelRefFinal.dx * scale, 0);
-						p.setBias (pBias);
-						o.setBias (oBias);
-						
-						//Apply biases
-						pVelRefFinal.add (pBias);
-						oVelRefFinal.add (oBias);
-					}					
-					else {
-						//Remove biases
-						if (p.hasBias ()) {
-							pVelRefFinal.subtract (p.getBias ());
-						}
-						if (o.hasBias ()) {
-							oVelRefFinal.subtract (o.getBias ());
-						}
-					}*/
-
 					
 					//Transform velocities back to original system
 					Vector2D pVelFinal = new Vector2D (
@@ -167,7 +140,7 @@ public class Physics <T extends Particle> {
 					p.afterCollisionHandling (buffer);
 					p.replaceWith (buffer[0]);
 					o.replaceWith (buffer[1]);
-					
+					logEnergyDebug ("After collisions");
 				}
 			}
 		}
@@ -179,7 +152,6 @@ public class Physics <T extends Particle> {
 			updateBoundryCheck (p);
 			qTree.update (p);
 			updateCollisionCheck (p);
-			updateNextPosition (p);
 		}
 	}
 	

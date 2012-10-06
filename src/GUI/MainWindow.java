@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 
 public class MainWindow extends javax.swing.JFrame {
 
-	private static final int maxMolecules = 500;
+	private static final int maxMolecules = 2000;
 	private static final int maxTemperature = 1000;
 	private static final int maxPressure = 10;
 	private CanvasPanel canvas;
