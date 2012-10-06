@@ -73,8 +73,7 @@ public class Molecule extends Particle {
 	private void convertTo (int moleculeType) {
 		float newMass = Molecule.matchMass (moleculeType);
 		float velRatio = (float) Math.sqrt (this.mass / newMass);
-		Vector2D oldv = this.getVelocity ();
-		this.setVelocity (velRatio * oldv.dx, velRatio * oldv.dy);
+		this.getVelocity ().scale (velRatio);
 		this.setMass (newMass);
 		this.color = matchColor (moleculeType);
 		this.moleculeType = moleculeType;

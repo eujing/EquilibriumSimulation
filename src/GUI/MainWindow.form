@@ -23,7 +23,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="pCanvas" min="-2" max="-2" attributes="0"/>
+              <Component id="jTabbedPane1" min="-2" pref="912" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -31,27 +31,12 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="pCanvas" max="32767" attributes="0"/>
           <Component id="jPanel2" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="pCanvas">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="912" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
 
       <Layout>
@@ -92,6 +77,13 @@
                               <Component id="lblTemp" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lblPressure" alignment="0" min="-2" pref="86" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblValuePressure" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblValueTemp" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblValueConcB" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblValueConcA" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
@@ -120,19 +112,31 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblParameters" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                  <Component id="lblSliderConcA" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSliderConcA" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblValueConcA" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="sliderConcA" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblSliderConcB" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSliderConcB" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblValueConcB" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="sliderConcB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblTemp" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblTemp" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblValueTemp" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="sliderTemp" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblPressure" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblPressure" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblValuePressure" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="sliderPressure" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -157,7 +161,7 @@
                       <Component id="lblKe" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="rxnQuotient" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="247" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="bStart" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bStop" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -171,14 +175,14 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblTemp">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Temperature (K)"/>
+            <Property name="text" type="java.lang.String" value="Temperature (K):"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSlider" name="sliderTemp">
         </Component>
         <Component class="javax.swing.JLabel" name="lblPressure">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pressure (atm)"/>
+            <Property name="text" type="java.lang.String" value="Pressure (atm):"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSlider" name="sliderPressure">
@@ -192,7 +196,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblSliderConcB">
           <Properties>
-            <Property name="text" type="java.lang.String" value="B Concentration (M)"/>
+            <Property name="text" type="java.lang.String" value="B Concentration (M):"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSlider" name="sliderConcB">
@@ -262,6 +266,81 @@
             <Property name="text" type="java.lang.String" value="Reset"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JLabel" name="lblValueConcA">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblValueConcB">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblValueTemp">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblValuePressure">
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Molecules">
+                <Property name="tabTitle" type="java.lang.String" value="Molecules"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pCanvas" alignment="0" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pCanvas" alignment="0" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="pCanvas">
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="907" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="605" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="pGraph">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Trends">
+                <Property name="tabTitle" type="java.lang.String" value="Trends"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="907" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="605" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>

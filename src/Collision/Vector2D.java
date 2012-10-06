@@ -18,11 +18,21 @@ public class Vector2D {
 	public void add (Vector2D o) {
 		this.dx += o.dx;
 		this.dy += o.dy;
+		this.calcMagnitude = true;
+		this.calcAngle = true;
 	}
 	
 	public void subtract (Vector2D o) {
 		this.dx -= o.dx;
 		this.dy -= o.dy;
+		this.calcMagnitude = true;
+		this.calcAngle = true;
+	}
+	
+	public void scale (float s) {
+		this.dx *= s;
+		this.dy *= s;
+		this.calcMagnitude = true;
 	}
 	
 	public float getMagnitude () {

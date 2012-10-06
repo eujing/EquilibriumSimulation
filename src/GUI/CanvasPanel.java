@@ -22,12 +22,12 @@ public class CanvasPanel extends JPanel implements Runnable {
 	private double maxFps;
 	private double currentFps;
 	private Thread simLoop;
-	public Physics <Molecule> pEngine; //ReactionManager
+	public ReactionManager rEngine; //ReactionManager
 
 	public CanvasPanel (int width, int height, double fps) {
 		this.setPreferredSize (new Dimension (width, height));
 		this.maxFps = fps;
-		pEngine = new Physics <> (width, height);
+		rEngine = new ReactionManager (new Physics <Molecule> (width, height));
 		this.setBackground (Color.WHITE);
 	}
 	
@@ -42,12 +42,11 @@ public class CanvasPanel extends JPanel implements Runnable {
 	public void addNRandomParticles (int n, int type) {
 		Random rand = new Random ();
         for(int i = 0; i < n; i++) {
-			//Change to ReactionManager when implemented
-			pEngine.addParticle (new Molecule (
+			rEngine.pEngine.addParticle (new Molecule (
 				this.getWidth () * rand.nextFloat (), 
 				this.getHeight () * rand.nextFloat (), 
-				(rand.nextInt (3) - 1), 
-				(rand.nextInt (3) - 1),
+				(rand.nextInt (3) - 1) * 2, 
+				(rand.nextInt (3) - 1) * 2,
 				type));
 		}
 	}
@@ -70,7 +69,7 @@ public class CanvasPanel extends JPanel implements Runnable {
 		if (!runSimulation) {
 			runSimulation = true;
 			(simLoop = new Thread (this)).start ();
-			System.out.println (pEngine.getParticles ().size ());
+			System.out.println (rEngine.pEngine.getParticles ().size ());
 		}
 	}
 
@@ -91,7 +90,7 @@ public class CanvasPanel extends JPanel implements Runnable {
 		while (runSimulation) {
 			startTime = System.currentTimeMillis ();
 			
-			pEngine.updateParticles ();
+			rEngine.update ();
 			repaint ();
 			
 			endTime = System.currentTimeMillis ();
@@ -121,10 +120,10 @@ public class CanvasPanel extends JPanel implements Runnable {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		ArrayList <Molecule> molecules = pEngine.getParticles ();
+		ArrayList <Molecule> molecules = rEngine.pEngine.getParticles ();
 
 		if (CanvasPanel.DEBUG_QUADS) {
-			ArrayList<Shape> lines = pEngine.getQuadTree ().getLines ();
+			ArrayList<Shape> lines = rEngine.pEngine.getQuadTree ().getLines ();
 			for (int i = 0; i < lines.size (); i++) {
 				g2.draw ((Shape) lines.get (i));
 			}

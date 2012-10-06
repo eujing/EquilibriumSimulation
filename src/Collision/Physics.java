@@ -29,7 +29,7 @@ public class Physics <T extends Particle> {
 		qTree.createTree ();
 	}
 	
-	private float CalculateSystemEnergy () {
+	public float CalculateSystemEnergy () {
 		float ke = 0;
 		for (T tmp : particles) {
 			float m = tmp.getR () * tmp.getR ();
@@ -38,7 +38,7 @@ public class Physics <T extends Particle> {
 		return ke;
 	}
 	
-	private void logEnergyDebug (String msg) {
+	public void logEnergyDebug (String msg) {
 		if (Physics.DEBUG_ENERGY) {
 			System.out.println ("[Energy]" + msg + " = " + CalculateSystemEnergy ());
 		}

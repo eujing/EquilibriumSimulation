@@ -1,29 +1,36 @@
 package GUI;
 
 import Chemistry.Molecule;
+import Graph.*;
 import com.nilo.plaf.nimrod.*;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JSlider;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class MainWindow extends javax.swing.JFrame {
 
-	private static final int maxMolecules = 2000;
-	private static final int maxTemperature = 1000;
-	private static final int maxPressure = 10;
+	public static final int maxMolecules = 2000;
+	public static final int maxTemperature = 1000;
+	public static final int maxPressure = 10;
+	public static final int DEFAULT_CONC = maxMolecules / 4;
+	public static final int DEFAULT_TEMP = 298;
+	public static final int DEFAULT_PRESSURE = 1;
 	private CanvasPanel canvas;
+	private GraphPanel graph;
 
 	public MainWindow () {
 		initComponents ();
-		canvas = new CanvasPanel (pCanvas.getWidth (), pCanvas.getHeight (), 60);
-		pCanvas.setLayout (new BorderLayout ());
-		pCanvas.add (canvas, BorderLayout.CENTER);
-		this.concA.setForeground (Molecule.COLOR_A);
-		this.concB.setForeground (Molecule.COLOR_B);
-		this.concC.setForeground (Molecule.COLOR_C);
+		initCanvas ();
+		initGraph ();
 		initSliders ();
 		initButtons ();
+		this.pack ();
+		
 		canvas.addNRandomParticles (sliderConcA.getValue (), Molecule.MOLECULE_A);
 		canvas.addNRandomParticles (sliderConcB.getValue (), Molecule.MOLECULE_B);
 	}
@@ -32,7 +39,6 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pCanvas = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lblTemp = new javax.swing.JLabel();
         sliderTemp = new javax.swing.JSlider();
@@ -55,27 +61,24 @@ public class MainWindow extends javax.swing.JFrame {
         lblKe = new javax.swing.JLabel();
         rxnQuotient = new javax.swing.JLabel();
         bReset = new javax.swing.JButton();
+        lblValueConcA = new javax.swing.JLabel();
+        lblValueConcB = new javax.swing.JLabel();
+        lblValueTemp = new javax.swing.JLabel();
+        lblValuePressure = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        pCanvas = new javax.swing.JPanel();
+        pGraph = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout pCanvasLayout = new javax.swing.GroupLayout(pCanvas);
-        pCanvas.setLayout(pCanvasLayout);
-        pCanvasLayout.setHorizontalGroup(
-            pCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 912, Short.MAX_VALUE)
-        );
-        pCanvasLayout.setVerticalGroup(
-            pCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        lblTemp.setText("Temperature (K):");
 
-        lblTemp.setText("Temperature (K)");
-
-        lblPressure.setText("Pressure (atm)");
+        lblPressure.setText("Pressure (atm):");
 
         lblSliderConcA.setText("A Concentration (M)");
 
-        lblSliderConcB.setText("B Concentration (M)");
+        lblSliderConcB.setText("B Concentration (M):");
 
         bStart.setText("Start");
 
@@ -135,7 +138,13 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(lblSliderConcA)
                             .addComponent(lblSliderConcB)
                             .addComponent(lblTemp)
-                            .addComponent(lblPressure, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblPressure, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblValuePressure, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblValueTemp, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblValueConcB, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblValueConcA, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,19 +166,27 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblParameters)
                 .addGap(9, 9, 9)
-                .addComponent(lblSliderConcA)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSliderConcA)
+                    .addComponent(lblValueConcA))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sliderConcA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblSliderConcB)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSliderConcB)
+                    .addComponent(lblValueConcB))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sliderConcB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTemp)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTemp)
+                    .addComponent(lblValueTemp))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sliderTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblPressure)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPressure)
+                    .addComponent(lblValuePressure))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sliderPressure, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -190,7 +207,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblKe)
                     .addComponent(rxnQuotient))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 247, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bStart)
                     .addComponent(bStop)
@@ -198,33 +215,117 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        javax.swing.GroupLayout pCanvasLayout = new javax.swing.GroupLayout(pCanvas);
+        pCanvas.setLayout(pCanvasLayout);
+        pCanvasLayout.setHorizontalGroup(
+            pCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 907, Short.MAX_VALUE)
+        );
+        pCanvasLayout.setVerticalGroup(
+            pCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 605, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Molecules", jPanel1);
+
+        javax.swing.GroupLayout pGraphLayout = new javax.swing.GroupLayout(pGraph);
+        pGraph.setLayout(pGraphLayout);
+        pGraphLayout.setHorizontalGroup(
+            pGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 907, Short.MAX_VALUE)
+        );
+        pGraphLayout.setVerticalGroup(
+            pGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 605, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Trends", pGraph);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(pCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 912, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+	private void initCanvas () {
+		canvas = new CanvasPanel (pCanvas.getWidth (), pCanvas.getHeight (), 60);
+		pCanvas.setLayout (new BorderLayout ());
+		pCanvas.add (canvas, BorderLayout.CENTER);
+		this.concA.setForeground (Molecule.COLOR_A);
+		this.concB.setForeground (Molecule.COLOR_B);
+		this.concC.setForeground (Molecule.COLOR_C);
+	}
+	
+	private void initGraph () {
+		DataSet[] dataset = {
+			new DataSet (Color.RED) {
+				@Override
+				public float getNextDataPoint () {
+					return canvas.rEngine.calcReactionQuotient ();
+				}
+			}
+		};
+		graph = new GraphPanel (pGraph.getWidth (), pGraph.getHeight (), 5, 1000, 10, dataset);
+		graph.setTitle ("Graph of Q against t");
+		graph.setLabels ("t", "Q");
+		pGraph.setLayout (new BorderLayout ());
+		pGraph.add (graph, BorderLayout.CENTER);
+	}
+	
 	private void initSliders () {
 		sliderConcA.setMaximum (maxMolecules / 2);
 		sliderConcB.setMaximum (maxMolecules / 2);
 		sliderTemp.setMaximum (maxTemperature);
 		sliderPressure.setMaximum (maxPressure);
-		sliderConcA.setValue (sliderConcA.getMaximum () / 2);
-		sliderConcB.setValue (sliderConcB.getMaximum () / 2);
-		sliderTemp.setValue (298);
-		sliderPressure.setValue (1);
+		sliderConcA.setValue (DEFAULT_CONC);
+		lblValueConcA.setText ("" + DEFAULT_CONC);
+		sliderConcB.setValue (DEFAULT_CONC);
+		lblValueConcB.setText ("" + DEFAULT_CONC);
+		sliderTemp.setValue (DEFAULT_TEMP);
+		lblValueTemp.setText ("" + DEFAULT_TEMP);
+		sliderPressure.setValue (DEFAULT_PRESSURE);
+		lblValuePressure.setText ("" + DEFAULT_PRESSURE);
+		
+		sliderTemp.addChangeListener (new ChangeListener () {
+			@Override
+			public void stateChanged (ChangeEvent e) {
+				JSlider source = (JSlider) e.getSource ();
+				lblValueTemp.setText ("" + source.getValue ());
+				canvas.rEngine.setTemperature (source.getValue ());
+			}
+		});
+		
+		sliderPressure.addChangeListener (new ChangeListener () {
+			@Override
+			public void stateChanged (ChangeEvent e) {
+				JSlider source = (JSlider) e.getSource ();
+				lblValuePressure.setText ("" + source.getValue ());
+				canvas.rEngine.setPressure (source.getValue ());
+			}
+		});
 	}
 
 	private void initButtons () {
@@ -232,6 +333,7 @@ public class MainWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				canvas.startSimulation ();
+				graph.startPlotting ();
 			}
 		});
 
@@ -239,6 +341,7 @@ public class MainWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				canvas.stopSimulation ();
+				graph.stopPlotting ();
 			}
 		});
 
@@ -246,7 +349,8 @@ public class MainWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				canvas.stopSimulation ();
-				canvas.pEngine.deleteAllParticles ();
+				graph.stopPlotting ();
+				canvas.rEngine.pEngine.deleteAllParticles ();
 				canvas.addNRandomParticles (sliderConcA.getValue (), Molecule.MOLECULE_A);
 				canvas.addNRandomParticles (sliderConcB.getValue (), Molecule.MOLECULE_B);
 				canvas.repaint ();
@@ -280,7 +384,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel concA;
     private javax.swing.JLabel concB;
     private javax.swing.JLabel concC;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblConcA;
     private javax.swing.JLabel lblConcB;
     private javax.swing.JLabel lblConcC;
@@ -291,7 +397,12 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblSliderConcA;
     private javax.swing.JLabel lblSliderConcB;
     private javax.swing.JLabel lblTemp;
+    private javax.swing.JLabel lblValueConcA;
+    private javax.swing.JLabel lblValueConcB;
+    private javax.swing.JLabel lblValuePressure;
+    private javax.swing.JLabel lblValueTemp;
     private javax.swing.JPanel pCanvas;
+    private javax.swing.JPanel pGraph;
     private javax.swing.JLabel rxnQuotient;
     private javax.swing.JSlider sliderConcA;
     private javax.swing.JSlider sliderConcB;
