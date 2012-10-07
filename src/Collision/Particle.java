@@ -29,7 +29,7 @@ public class Particle extends QuadTreeObject {
 	}
 
 	//@Override
-	public void afterCollisionHandling (Particle[] pair) {
+	public void afterCollisionHandling (Particle p, Particle o) {
 	}
 
 	@Override

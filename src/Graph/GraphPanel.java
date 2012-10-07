@@ -82,6 +82,15 @@ public class GraphPanel extends JPanel implements ActionListener {
 		this.xLabel = xLabel;
 		this.yLabel = yLabel;
 	}
+	
+	public void reset () {
+		for (int i = 0; i < dataCollectors.length; i++) {
+			dataCollectors[i].reset ();
+			buffers[i].clear ();
+			trendBuffers[i].clear ();
+		}
+		repaint ();
+	}
 
 	private void updateBuffers () {
 		for (int i = 0; i < dataCollectors.length; i++) {
@@ -94,9 +103,9 @@ public class GraphPanel extends JPanel implements ActionListener {
 			}
 			buffers[i].add (nextPoint);
 
-			//Trend buffer
+			//Trend buffer (Moving average)
 			if (set.nNewPoints < sampleSize) {
-				trendBuffers[i].add (0f);
+				trendBuffers[i].add (set.currSum / set.nNewPoints);
 				set.currSum += nextPoint;
 				set.nNewPoints++;
 			}

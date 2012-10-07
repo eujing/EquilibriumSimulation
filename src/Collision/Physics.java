@@ -4,7 +4,7 @@ import QuadTree.*;
 import java.util.ArrayList;
 
 public class Physics <T extends Particle> {
-	private static final boolean DEBUG_ENERGY = false;
+	private static final boolean DEBUG_ENERGY = true;
 	private static final boolean DEBUG_COLLISION = false;
 	private float width;
 	private float height;
@@ -135,12 +135,9 @@ public class Physics <T extends Particle> {
 					if (DEBUG_COLLISION && p.collidesWith (o)) {
 						System.out.println ("oh no");
 					}
-					
-					Particle[] buffer = {p, o};
-					p.afterCollisionHandling (buffer);
-					p.replaceWith (buffer[0]);
-					o.replaceWith (buffer[1]);
-					logEnergyDebug ("After collisions");
+
+					p.afterCollisionHandling (p, o);
+					//logEnergyDebug ("After collisions");
 				}
 			}
 		}

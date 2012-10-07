@@ -15,7 +15,7 @@ import javax.swing.event.ChangeListener;
 public class MainWindow extends javax.swing.JFrame {
 
 	public static final int maxMolecules = 2000;
-	public static final int maxTemperature = 1000;
+	public static final int maxTemperature = 3000;
 	public static final int maxPressure = 10;
 	public static final int DEFAULT_CONC = maxMolecules / 4;
 	public static final int DEFAULT_TEMP = 298;
@@ -377,6 +377,7 @@ public class MainWindow extends javax.swing.JFrame {
 			public void actionPerformed (ActionEvent e) {
 				canvas.stopSimulation ();
 				graph.stopPlotting ();
+				graph.reset ();
 				canvas.rEngine.pEngine.deleteAllParticles ();
 				canvas.addNRandomParticles (sliderConcA.getValue (), sliderTemp.getValue (), sliderPressure.getValue (), Molecule.MOLECULE_A);
 				canvas.addNRandomParticles (sliderConcB.getValue (), sliderTemp.getValue (), sliderPressure.getValue (), Molecule.MOLECULE_B);

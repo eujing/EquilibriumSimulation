@@ -9,6 +9,10 @@ public abstract class DataSet implements IOutputData {
 	
 	public DataSet (Color c) {
 		this.color = c;
+		reset ();
+	}
+	
+	public final void reset () {
 		currSum = 0;
 		nNewPoints = 0;
 	}

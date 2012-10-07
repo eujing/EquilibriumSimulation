@@ -22,7 +22,7 @@ public class CanvasPanel extends JPanel implements Runnable {
 	private double maxFps;
 	private double currentFps;
 	private Thread simLoop;
-	public ReactionManager rEngine; //ReactionManager
+	public ReactionManager rEngine;
 
 	public CanvasPanel (int width, int height, double fps) {
 		this.setPreferredSize (new Dimension (width, height));
@@ -33,7 +33,6 @@ public class CanvasPanel extends JPanel implements Runnable {
 	
 	public void addNRandomParticles (int n, float temp, int pressure, int type) {
 		Random rand = new Random ();
-		System.out.println (pressure / MainWindow.DEFAULT_PRESSURE);
 		float factor = vMultiplier * (float) Math.sqrt (temp / MainWindow.DEFAULT_TEMP) * (float) Math.sqrt ((double) pressure / (double) MainWindow.DEFAULT_PRESSURE);
         for(int i = 0; i < n; i++) {
 			rEngine.pEngine.addParticle (new Molecule (
