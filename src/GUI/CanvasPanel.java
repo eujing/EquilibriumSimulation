@@ -31,9 +31,9 @@ public class CanvasPanel extends JPanel implements Runnable {
 		this.setBackground (Color.WHITE);
 	}
 	
-	public void addNRandomParticles (int n, float temp, int pressure, int type) {
+	public void addNRandomParticles (int n, int temp, int type) {
 		Random rand = new Random ();
-		float factor = vMultiplier * (float) Math.sqrt (temp / MainWindow.DEFAULT_TEMP) * (float) Math.sqrt ((double) pressure / (double) MainWindow.DEFAULT_PRESSURE);
+		float factor = vMultiplier * (float) Math.sqrt (temp / MainWindow.DEFAULT_TEMP);
         for(int i = 0; i < n; i++) {
 			rEngine.pEngine.addParticle (new Molecule (
 				this.getWidth () * rand.nextFloat (), 
