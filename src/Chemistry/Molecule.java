@@ -11,12 +11,12 @@ public class Molecule extends Particle {
 	public static final Color COLOR_A = new Color (0, 250, 154);
 	public static final Color COLOR_B = new Color (0, 255, 255);
 	public static final Color COLOR_C = new Color (255, 20, 147);
-	public static final float MASS_A = 9;
-	public static final float MASS_B = 16;
+	public static final float MASS_A = 9f/5f;
+	public static final float MASS_B = 16f/5f;
 	public static final float MASS_C = (MASS_A + MASS_B) / 2;
 	public static final int FORWARD_REACTION = MOLECULE_A | MOLECULE_B;
 	public static final int BACKWARD_REACTION = MOLECULE_C | MOLECULE_C;
-	public static final float ENTHALPY = -50f;
+	public static final float ENTHALPY = -10;
 	public static final float FORWARD_EA = 10;
 	public static final float BACKWARD_EA = FORWARD_EA - ENTHALPY;
 	private int moleculeType;
@@ -108,8 +108,5 @@ public class Molecule extends Particle {
 					break;
 				}
 		}
-
-		//pair[0] = m1;
-		//pair[1] = m2;
 	}
 }

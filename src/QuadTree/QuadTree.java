@@ -3,6 +3,8 @@ package QuadTree;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
 
 public class QuadTree<T extends QuadTreeObject> {
 	private static final boolean DEBUG_INSERT = false;

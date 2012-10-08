@@ -33,7 +33,8 @@ public class CanvasPanel extends JPanel implements Runnable {
 	
 	public void addNRandomParticles (int n, int temp, int type) {
 		Random rand = new Random ();
-		float factor = vMultiplier * (float) Math.sqrt (temp / MainWindow.DEFAULT_TEMP);
+		float factor = vMultiplier * (float) Math.sqrt ((float) temp / (float) MainWindow.DEFAULT_TEMP);
+		System.out.println (factor);
         for(int i = 0; i < n; i++) {
 			rEngine.pEngine.addParticle (new Molecule (
 				this.getWidth () * rand.nextFloat (), 
@@ -42,20 +43,6 @@ public class CanvasPanel extends JPanel implements Runnable {
 				(rand.nextInt (3) - 1) * factor,
 				type));
 		}
-	}
-
-	private float haltonSequence (int index, int base) {
-		float result = 0;
-		float f = 1f / base;
-		int i = index;
-		
-		while (i > 0) {
-			result += f * (i % base);
-			i = (int) Math.floor ((float) i / base);
-			f = f / base;
-		}
-		
-		return result;
 	}
 	
 	public void startSimulation () {
@@ -133,7 +120,7 @@ public class CanvasPanel extends JPanel implements Runnable {
 				int l = (int) (p.getR () * 2 + 0.5f);
 				
 				g2.setColor (p.getColor ());
-				g2.drawOval (x, y, l, l);
+				//g2.drawOval (x, y, l, l);
 				g2.fillOval (x, y, l, l);
 			}
 		}

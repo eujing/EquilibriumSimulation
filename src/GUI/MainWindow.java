@@ -5,6 +5,7 @@ import Graph.*;
 import com.nilo.plaf.nimrod.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JSlider;
@@ -14,12 +15,13 @@ import javax.swing.event.ChangeListener;
 
 public class MainWindow extends javax.swing.JFrame {
 
-	public static final int maxMolecules = 2000;
-	public static final int maxTemperature = 3000;
+	public static final int maxMolecules = 40000;
+	public static final int maxTemperature = 2000;
 	public static final int DEFAULT_CONC = maxMolecules / 4;
 	public static final int DEFAULT_TEMP = 298;
 	private CanvasPanel canvas;
-	private GraphPanel graph;
+	private GraphPanel graphReactionQuotient;
+	private GraphPanel graphConcentrations;
 	private boolean firstRun = true;
 
 	public MainWindow () {
@@ -201,6 +203,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jTabbedPane1.setDoubleBuffered(true);
+
         javax.swing.GroupLayout pCanvasLayout = new javax.swing.GroupLayout(pCanvas);
         pCanvas.setLayout(pCanvasLayout);
         pCanvasLayout.setHorizontalGroup(
@@ -266,7 +270,7 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 	private void initGraph () {
-		DataSet[] dataset = {
+		DataSet[] datasetReactionQuotient = {
 			new DataSet (Color.BLUE) {
 				@Override
 				public float getNextDataPoint () {
@@ -274,11 +278,39 @@ public class MainWindow extends javax.swing.JFrame {
 				}
 			}
 		};
-		graph = new GraphPanel (pGraph.getWidth (), pGraph.getHeight (), 5, 1000, 10, dataset);
-		graph.setTitle ("Graph of Q against t");
-		graph.setLabels ("t", "Q");
-		pGraph.setLayout (new BorderLayout ());
-		pGraph.add (graph, BorderLayout.CENTER);
+		graphReactionQuotient = new GraphPanel (pGraph.getWidth (), pGraph.getHeight () / 2, 10, 1000, 10, datasetReactionQuotient);
+		graphReactionQuotient.setTitle ("Graph of Q against t");
+		graphReactionQuotient.setLabels ("t", "Q");
+		
+		DataSet[] datasetConcentrations = {
+			new DataSet (Molecule.COLOR_A) {
+				@Override
+				public float getNextDataPoint () {
+					return canvas.rEngine.getConcOfType (Molecule.MOLECULE_A);
+				}
+			},
+			
+			new DataSet (Molecule.COLOR_B) {
+				@Override
+				public float getNextDataPoint () {
+					return canvas.rEngine.getConcOfType (Molecule.MOLECULE_B);
+				}
+			},
+			
+			new DataSet (Molecule.COLOR_C) {
+				@Override
+				public float getNextDataPoint () {
+					return canvas.rEngine.getConcOfType (Molecule.MOLECULE_C);
+				}
+			}
+		};
+		graphConcentrations = new GraphPanel (pGraph.getWidth (), pGraph.getHeight () / 2, maxMolecules / 1000, 1000, 10, datasetConcentrations);
+		graphConcentrations.setTitle ("Graph of species concentrations against t");
+		graphConcentrations.setLabels ("t", "[X]");
+		
+		pGraph.setLayout (new GridLayout (2, 1));
+		pGraph.add (graphReactionQuotient);
+		pGraph.add (graphConcentrations);
 	}
 
 	private void initSliders () {
@@ -334,7 +366,8 @@ public class MainWindow extends javax.swing.JFrame {
 					firstRun = false;
 				}
 				canvas.startSimulation ();
-				graph.startPlotting ();
+				graphReactionQuotient.startPlotting ();
+				graphConcentrations.startPlotting ();
 			}
 		});
 
@@ -342,7 +375,8 @@ public class MainWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				canvas.stopSimulation ();
-				graph.stopPlotting ();
+				graphReactionQuotient.stopPlotting ();
+				graphConcentrations.stopPlotting ();
 			}
 		});
 
@@ -350,13 +384,15 @@ public class MainWindow extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				canvas.stopSimulation ();
-				graph.stopPlotting ();
-				graph.reset ();
+				graphReactionQuotient.stopPlotting ();
+				graphConcentrations.stopPlotting ();
+				graphReactionQuotient.reset ();
+				graphConcentrations.reset ();
 				canvas.rEngine.pEngine.deleteAllParticles ();
 				canvas.addNRandomParticles (sliderConcA.getValue (), sliderTemp.getValue (), Molecule.MOLECULE_A);
 				canvas.addNRandomParticles (sliderConcB.getValue (), sliderTemp.getValue (), Molecule.MOLECULE_B);
 				canvas.repaint ();
-				System.out.println (sliderConcA.getValue () + sliderConcB.getValue ());
+				System.out.println (sliderTemp.getValue ());
 			}
 		});
 	}
