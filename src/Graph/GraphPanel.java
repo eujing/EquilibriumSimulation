@@ -168,10 +168,10 @@ public class GraphPanel extends JPanel implements ActionListener {
 				yCoords[j] = height - padding - border - (int) (buffer.get (j) / maxY * (graphHeight));
 			}
 
-			g2.setColor (dataCollectors[i].color);
+			g2.setColor (dataCollectors[i].getColor ());
 			g2.drawPolyline (xCoords, yCoords, yCoords.length < bufferSize ? yCoords.length : bufferSize);
 		}
-
+		
 		//Draw trendlines
 		for (int i = 0; i < dataCollectors.length; i++) {
 			ArrayList<Float> buffer = trendBuffers[i];

@@ -2,13 +2,11 @@ package Graph;
 
 import java.awt.Color;
 
-public abstract class DataSet implements IOutputData {
-	public Color color;
+public abstract class DataSet {
 	public float currSum;
 	public int nNewPoints;
 	
-	public DataSet (Color c) {
-		this.color = c;
+	public DataSet () {
 		reset ();
 	}
 	
@@ -16,4 +14,7 @@ public abstract class DataSet implements IOutputData {
 		currSum = 0;
 		nNewPoints = 0;
 	}
+	
+	public abstract float getNextDataPoint ();
+	public abstract Color getColor ();
 }

@@ -3,7 +3,7 @@ package Collision;
 import QuadTree.*;
 import java.util.ArrayList;
 
-public class Physics<T extends Particle> {
+public class Physics <T extends Physics.PhysicsCompatible> {
 
 	private static final boolean DEBUG_ENERGY = false;
 	private static final boolean DEBUG_COLLISION = false;
@@ -11,6 +11,12 @@ public class Physics<T extends Particle> {
 	private float height;
 	private QuadTree qTree;
 	private ArrayList<T> particles;
+	
+	public static abstract class PhysicsCompatible extends Particle implements ICollidable {
+	public PhysicsCompatible (float x, float y, float dx, float dy, float r) {
+		super (x, y, dx, dy, r);
+	}
+}
 
 	public Physics (float width, float height) {
 		this.width = width;
@@ -33,8 +39,7 @@ public class Physics<T extends Particle> {
 	public float CalculateSystemEnergy () {
 		float ke = 0;
 		for (T tmp : particles) {
-			float m = tmp.getR () * tmp.getR ();
-			ke += 0.5 * m * tmp.getVelocity ().getMagnitude () * tmp.getVelocity ().getMagnitude ();
+			ke += 0.5 * tmp.getMass () * tmp.getVelocity ().getMagnitude () * tmp.getVelocity ().getMagnitude ();
 		}
 		return ke;
 	}
@@ -82,8 +87,8 @@ public class Physics<T extends Particle> {
 					reversePosition (p);
 					reversePosition (o);
 
-					float pMass = p.getR () * p.getR ();
-					float oMass = o.getR () * o.getR ();
+					float pMass = p.getMass ();
+					float oMass = o.getMass ();
 					float po_dx = p.getX () - o.getX ();
 					float po_dy = p.getY () - o.getY ();
 					float sinPhi, cosPhi, distance;
@@ -138,6 +143,7 @@ public class Physics<T extends Particle> {
 					}
 
 					p.afterCollisionHandling (p, o);
+					
 					if (DEBUG_ENERGY) {
 						logEnergyDebug ("After collisions");
 					}
