@@ -120,6 +120,19 @@ public class GraphPanel extends JPanel implements ActionListener {
 			}
 		}
 	}
+	
+	private void autoScaleAxis () {
+		float tmpMax = 0;
+		for (ArrayList<Float> buffer : buffers) {
+			for (float point : buffer) {
+				if (point > tmpMax) {
+					tmpMax = point;
+				}
+			}
+		}
+		
+		this.maxY = (int) (1.5 * tmpMax);
+	}
 
 	public void startPlotting () {
 		timer.start ();
@@ -159,7 +172,9 @@ public class GraphPanel extends JPanel implements ActionListener {
 		drawStringFromBack (g2, xLabel, width - border, height - border + 5);
 		drawStringFromBack (g2, yLabel, border + padding - 5, border + 7);
 		drawCenteredString (g2, title, width / 2, border);
-
+		
+		autoScaleAxis ();
+		
 		//Draw graphs
 		for (int i = 0; i < dataCollectors.length; i++) {
 			ArrayList<Float> buffer = buffers[i];

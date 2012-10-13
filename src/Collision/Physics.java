@@ -13,7 +13,7 @@ public class Physics <T extends Physics.PhysicsCompatible> {
 	private ArrayList<T> particles;
 	
 	public static abstract class PhysicsCompatible extends Particle implements ICollidable {
-	public PhysicsCompatible (float x, float y, float dx, float dy, float r) {
+	public PhysicsCompatible (double x, double y, double dx, double dy, double r) {
 		super (x, y, dx, dy, r);
 	}
 }
@@ -36,10 +36,10 @@ public class Physics <T extends Physics.PhysicsCompatible> {
 		qTree.createTree ();
 	}
 
-	public float CalculateSystemEnergy () {
-		float ke = 0;
+	public double CalculateSystemEnergy () {
+		double ke = 0;
 		for (T tmp : particles) {
-			ke += 0.5 * tmp.getMass () * tmp.getVelocity ().getMagnitude () * tmp.getVelocity ().getMagnitude ();
+			ke += 0.5 * tmp.getMass () * tmp.v.getMagnitude () * tmp.v.getMagnitude ();
 		}
 		return ke;
 	}
@@ -55,22 +55,20 @@ public class Physics <T extends Physics.PhysicsCompatible> {
 	}
 
 	private void reversePosition (T p) {
-		p.setPosition (p.getX () - p.getVelocity ().dx, p.getY () - p.getVelocity ().dy);
+		p.setPosition (p.getX () - p.v.dx, p.getY () - p.v.dy);
 	}
 
 	private void updateBoundryCheck (T p) {
-		Vector2D v = p.getVelocity ();
-		float r = p.getR ();
-		if ((p.getX () - r < 0 && v.dx < 0)
-			|| (p.getX () + r > width && v.dx > 0)) {
-			p.setVelocity (-v.dx, v.dy);
+		if ((p.getX () - p.r < 0 && p.v.dx < 0)
+			|| (p.getX () + p.r > width && p.v.dx > 0)) {
+			p.v.dx = -p.v.dx;
 			updateNextPosition (p);
 		}
 
-		v = p.getVelocity ();
-		if ((p.getY () - r < 0 && v.dy < 0)
-			|| (p.getY () + r > height && v.dy > 0)) {
-			p.setVelocity (v.dx, -v.dy);
+		//v = p.v;
+		if ((p.getY () - p.r < 0 && p.v.dy < 0)
+			|| (p.getY () + p.r > height && p.v.dy > 0)) {
+			p.v.dy = -p.v.dy;
 			updateNextPosition (p);
 		}
 	}
@@ -87,11 +85,11 @@ public class Physics <T extends Physics.PhysicsCompatible> {
 					reversePosition (p);
 					reversePosition (o);
 
-					float pMass = p.getMass ();
-					float oMass = o.getMass ();
-					float po_dx = p.getX () - o.getX ();
-					float po_dy = p.getY () - o.getY ();
-					float sinPhi, cosPhi, distance;
+					double pMass = p.getMass ();
+					double oMass = o.getMass ();
+					double po_dx = p.getX () - o.getX ();
+					double po_dy = p.getY () - o.getY ();
+					double sinPhi, cosPhi, distance;
 
 					//Get trigo angle shifts needed for collision to be 1D
 					distance = (float) Math.sqrt (po_dx * po_dx + po_dy * po_dy);
@@ -99,19 +97,19 @@ public class Physics <T extends Physics.PhysicsCompatible> {
 					cosPhi = po_dx / distance;
 
 					//Push apart
-					float target = p.getR () + o.getR ();
-					float factor = (distance - target) / distance * 0.5f;
+					double target = p.r + o.r;
+					double factor = (distance - target) / distance * 0.5f;
 					p.setPosition (p.getX () - po_dx * factor, p.getY () - po_dy * factor);
 					o.setPosition (o.getX () + po_dx * factor, o.getY () + po_dy * factor);
 
 					//Transform velocities to rotated coordinate system
 					Vector2D pVelRefInit = new Vector2D (
-						(p.getVelocity ().dx * cosPhi + p.getVelocity ().dy * sinPhi),
-						(p.getVelocity ().dx * -sinPhi + p.getVelocity ().dy * cosPhi));
+						(p.v.dx * cosPhi + p.v.dy * sinPhi),
+						(p.v.dx * -sinPhi + p.v.dy * cosPhi));
 
 					Vector2D oVelRefInit = new Vector2D (
-						(o.getVelocity ().dx * cosPhi + o.getVelocity ().dy * sinPhi),
-						(o.getVelocity ().dx * -sinPhi + o.getVelocity ().dy * cosPhi));
+						(o.v.dx * cosPhi + o.v.dy * sinPhi),
+						(o.v.dx * -sinPhi + o.v.dy * cosPhi));
 
 					//Calculate new velocities based on 1D collision
 					Vector2D pVelRefFinal = new Vector2D (

@@ -4,22 +4,22 @@ import QuadTree.*;
 
 public class Particle extends QuadTreeObject {
 
-	private float x;
-	private float y;
-	private Vector2D v;
-	private float r;
+	public double x;
+	public double y;
+	public Vector2D v;
+	public double r;
 
-	public Particle (float x, float y, float dx, float dy, float r) {
+	public Particle (double x, double y, double dx, double dy, double r) {
 		this.setPosition (x, y);
-		this.setVelocity (dx, dy);
+		v = new Vector2D (dx, dy);
 		this.r = r;
 	}
 
 	public boolean collidesWith (Particle p) {
-		float deltaX = this.getX () - p.getX ();
-		float deltaY = this.getY () - p.getY ();
-		float minDist = this.getR () + p.getR ();
-		float distance = deltaX * deltaX + deltaY * deltaY;
+		double deltaX = this.x - p.x;
+		double deltaY = this.y - p.y;
+		double minDist = this.r + p.r;
+		double distance = deltaX * deltaX + deltaY * deltaY;
 
 		if (distance <= (minDist * minDist)) {
 			return true;
@@ -34,7 +34,7 @@ public class Particle extends QuadTreeObject {
 
 	@Override
 	public String toString () {
-		return "(x, y) = (" + getX () + ", " + getY () + ") r = " + getR ();
+		return "(x, y) = (" + getX () + ", " + getY () + ") r = " + this.r;
 	}
 	
 	public void replaceWith (Particle o) {
@@ -46,8 +46,8 @@ public class Particle extends QuadTreeObject {
 
 	@Override
 	public boolean completelyInBoundry (QuadTreeNode node) {
-		if ((getX () - getR () >= node.getX () && getX () + getR () <= node.getX () + node.getW ())
-			&& (getY () - getR () >= node.getY () && getY () + getR () <= node.getY () + node.getH ())) {
+		if ((this.x - this.r >= node.x && this.x + this.r <= node.x + node.w)
+			&& (this.y - this.r >= node.y && this.y + this.r <= node.y + node.h)) {
 			return true;
 		}
 
@@ -56,53 +56,44 @@ public class Particle extends QuadTreeObject {
 
 	@Override
 	public QuadTreeQuery getQuery () {
-		return (new QuadTreeQuery (
+		//Velocity based
+		/*return (new QuadTreeQuery (
 				x + (v.dx < 0 ? v.dx : 0) - r,
 				y + (v.dy < 0 ? v.dy : 0) - r,
 				2 * r + (v.dx < 0 ? -v.dx : v.dx),
-				2 * r + (v.dy < 0 ? -v.dy : v.dy)));
+				2 * r + (v.dy < 0 ? -v.dy : v.dy)));*/
+		//Simple
+		return (new QuadTreeQuery (
+			x - r,
+			y - r,
+			2 * r,
+			2 * r));
 	}
 
-	public final void setPosition (float x, float y) {
+	public final void setPosition (double x, double y) {
 		this.x = x;
 		this.y = y;
-	}
-
-	public final void setVelocity (float dx, float dy) {
-		this.v = new Vector2D (dx, dy);
 	}
 
 	public final void setVelocity (Vector2D v) {
 		this.v = v;
 	}
-	
-	public void setR (float r) {
-		this.r = r;
-	}
 
-	public Vector2D getVelocity () {
-		return this.v;
-	}
-
-	public float getNewX () {
+	public double getNewX () {
 		return getX () + v.dx;
 	}
 
-	public float getNewY () {
+	public double getNewY () {
 		return getY () + v.dy;
 	}
 
 	@Override
-	public float getX () {
+	public double getX () {
 		return x;
 	}
 
 	@Override
-	public float getY () {
+	public double getY () {
 		return y;
-	}
-
-	public float getR () {
-		return r;
 	}
 }

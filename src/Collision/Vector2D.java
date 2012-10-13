@@ -1,14 +1,14 @@
 package Collision;
 
 public class Vector2D {
-	public float dx;
-	public float dy;
+	public double dx;
+	public double dy;
 	private boolean calcMagnitude;
-	private float magnitude;
+	private double magnitude;
 	private boolean calcAngle;
-	private float angle;
+	private double angle;
 	
-	public Vector2D (float dx, float dy) {
+	public Vector2D (double dx, double dy) {
 		this.dx = dx;
 		this.dy = dy;
 		this.calcMagnitude = true;
@@ -29,24 +29,24 @@ public class Vector2D {
 		this.calcAngle = true;
 	}
 	
-	public void scale (float s) {
+	public void scale (double s) {
 		this.dx *= s;
 		this.dy *= s;
 		this.calcMagnitude = true;
 	}
 	
-	public float getMagnitude () {
+	public double getMagnitude () {
 		if (this.calcMagnitude) {
-			this.magnitude = (float) Math.sqrt (this.dx * this.dx + this.dy * this.dy);
+			this.magnitude = Math.sqrt (this.dx * this.dx + this.dy * this.dy);
 			calcMagnitude = false;
 		}
 		
 		return this.magnitude;
 	}
 	
-	public float getAngle () {
+	public double getAngle () {
 		if (this.calcAngle) {
-			this.angle = (float) Math.atan2 (dy, dx);
+			this.angle = Math.atan2 (dy, dx);
 			this.calcAngle = false;
 		}
 		

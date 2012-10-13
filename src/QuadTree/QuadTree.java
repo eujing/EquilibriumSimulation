@@ -3,8 +3,6 @@ package QuadTree;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ForkJoinPool;
 
 public class QuadTree<T extends QuadTreeObject> {
 	private static final boolean DEBUG_INSERT = false;
@@ -37,8 +35,8 @@ public class QuadTree<T extends QuadTreeObject> {
 		ArrayList<Shape> lines = new ArrayList<> ();
 
 		if (node != null && node.childNodes != null) {
-			lines.add (new Line2D.Float (node.getX (), (2 * node.getY () + node.getH ()) / 2, node.getX () + node.getW (), (2 * node.getY () + node.getH ()) / 2));
-			lines.add (new Line2D.Float ((2 * node.getX () + node.getW ()) / 2, node.getY (), (2 * node.getX () + node.getW ()) / 2, node.getY () + node.getH ()));
+			lines.add (new Line2D.Float (node.x, (2 * node.y + node.h) / 2, node.x + node.w, (2 * node.y + node.h) / 2));
+			lines.add (new Line2D.Float ((2 * node.x + node.w) / 2, node.y, (2 * node.x + node.w) / 2, node.y + node.h));
 
 			for (int i = 0; i < node.childNodes.length; i++) {
 				lines.addAll (getLines (node.childNodes[i]));
@@ -57,13 +55,13 @@ public class QuadTree<T extends QuadTreeObject> {
 
 	private void subdivideNode (QuadTreeNode node) {
 		node.childNodes = new QuadTreeNode[4];
-		float newW = node.getW () / 2;
-		float newH = node.getH () / 2;
+		float newW = node.w / 2;
+		float newH = node.h / 2;
 
-		node.childNodes[0] = new QuadTreeNode (node.getX (), node.getY (), newW, newH, node);
-		node.childNodes[1] = new QuadTreeNode (node.getX () + newW, node.getY (), newW, newH, node);
-		node.childNodes[2] = new QuadTreeNode (node.getX (), node.getY () + newH, newW, newH, node);
-		node.childNodes[3] = new QuadTreeNode (node.getX () + newW, node.getY () + newH, newW, newH, node);
+		node.childNodes[0] = new QuadTreeNode (node.x, node.y, newW, newH, node);
+		node.childNodes[1] = new QuadTreeNode (node.x + newW, node.y, newW, newH, node);
+		node.childNodes[2] = new QuadTreeNode (node.x, node.y + newH, newW, newH, node);
+		node.childNodes[3] = new QuadTreeNode (node.x + newW, node.y + newH, newW, newH, node);
 	}
 
 	private boolean childrenHasAnyObjects (QuadTreeNode node) {

@@ -4,6 +4,6 @@ import java.awt.Color;
 
 public interface IReactable {
 	public Color matchColor (int type);
-	public float getActivationEnergy ();
-	public float getEnthalpy ();
+	public double getActivationEnergy ();
+	public double getEnthalpy ();
 }

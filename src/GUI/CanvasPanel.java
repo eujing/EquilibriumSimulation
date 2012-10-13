@@ -15,7 +15,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 public class CanvasPanel extends JPanel implements Runnable {
-	private static final float vMultiplier = 2;
+	private static final int vMultiplier = 2;
 	private static final boolean DEBUG_QUADS = false;
 	private static final boolean DEBUG_QUERIES = false;
 	private IReactable reactable;
@@ -36,7 +36,6 @@ public class CanvasPanel extends JPanel implements Runnable {
 	public void addNRandomParticles (int n, int temp, int type) {
 		Random rand = new Random ();
 		float factor = vMultiplier * (float) Math.sqrt ((float) temp / (float) MainWindow.DEFAULT_TEMP);
-		System.out.println (factor);
 		for (int i = 0; i < n; i++) {
 			rEngine.pEngine.addParticle (new Molecule (
 				this.getWidth () * rand.nextFloat (), this.getHeight () * rand.nextFloat (),
@@ -47,12 +46,12 @@ public class CanvasPanel extends JPanel implements Runnable {
 				}
 				
 				@Override
-				public float getEnthalpy () {
+				public double getEnthalpy () {
 					return reactable.getEnthalpy ();
 				}
 				
 				@Override
-				public float getActivationEnergy () {
+				public double getActivationEnergy () {
 					return reactable.getActivationEnergy ();
 				}
 			});
@@ -130,8 +129,8 @@ public class CanvasPanel extends JPanel implements Runnable {
 					g2.drawRect ((int) query.x, (int) query.y, (int) query.w, (int) query.h);
 				}
 
-				int x = (int) (p.getX () - p.getR () + 0.5f), y = (int) (p.getY () - p.getR () + 0.5f);
-				int l = (int) (p.getR () * 2 + 0.5f);
+				int x = (int) (p.x - p.r + 0.5f), y = (int) (p.y - p.r + 0.5f);
+				int l = (int) (p.r * 2 + 0.5f);
 
 				g2.setColor (p.getColor ());
 				//g2.drawOval (x, y, l, l);

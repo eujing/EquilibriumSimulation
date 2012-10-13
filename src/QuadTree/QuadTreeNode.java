@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class QuadTreeNode<T extends QuadTreeObject> {
 
-	private float x;
-	private float y;
-	private float w;
-	private float h;
+	public float x;
+	public float y;
+	public float w;
+	public float h;
 	public boolean hasObjectsWithin;
 	public QuadTreeNode parentNode;
 	public QuadTreeNode[] childNodes;
@@ -38,22 +38,6 @@ public class QuadTreeNode<T extends QuadTreeObject> {
 		}
 		
 		return buffer;
-	}
-
-	public float getX () {
-		return x;
-	}
-
-	public float getY () {
-		return y;
-	}
-
-	public float getW () {
-		return w;
-	}
-
-	public float getH () {
-		return h;
 	}
 
 	public void setContainedObject (T object) {

@@ -7,9 +7,9 @@ public abstract class QuadTreeObject {
 		public QuadTreeObject () {
 		}
 
-		public abstract float getX ();
+		public abstract double getX ();
 
-		public abstract float getY ();
+		public abstract double getY ();
 
 		public abstract boolean completelyInBoundry (QuadTreeNode node);
 

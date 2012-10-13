@@ -22,7 +22,7 @@ public class MainWindow extends javax.swing.JFrame {
 	public static final int maxEnthalpy = 50;
 	public static final int minEa = 0;
 	public static final int maxEa = 50;
-	public static final int minTemperature = 1;
+	public static final int minTemperature = 50;
 	public static final int maxTemperature = 2000;
 	public static final int DEFAULT_CONC = maxMolecules / 4;
 	public static final Color DEFAULT_COLOR_A = new Color (0, 250, 154);
@@ -395,13 +395,13 @@ public class MainWindow extends javax.swing.JFrame {
 			}
 
 			@Override
-			public float getEnthalpy () {
-				return (float) sliderEnthalpy.getValue () / 100f;
+			public double getEnthalpy () {
+				return sliderEnthalpy.getValue () / 100.0;
 			}
 
 			@Override
-			public float getActivationEnergy () {
-				return (float) sliderEa.getValue () / 100f;
+			public double getActivationEnergy () {
+				return sliderEa.getValue () / 100.0;
 			}
 		});
 		pCanvas.setLayout (new BorderLayout ());
@@ -413,7 +413,7 @@ public class MainWindow extends javax.swing.JFrame {
 			new DataSet () {
 				@Override
 				public float getNextDataPoint () {
-					return canvas.rEngine.calcReactionQuotient ();
+					return (float) canvas.rEngine.calcReactionQuotient ();
 				}
 				
 				@Override
@@ -431,7 +431,7 @@ public class MainWindow extends javax.swing.JFrame {
 			new DataSet () {
 				@Override
 				public float getNextDataPoint () {
-					return canvas.rEngine.getConcOfType (ReactionManager.MOLECULE_A);
+					return (float) canvas.rEngine.getConcOfType (ReactionManager.MOLECULE_A);
 				}
 				
 				@Override
@@ -442,7 +442,7 @@ public class MainWindow extends javax.swing.JFrame {
 			new DataSet () {
 				@Override
 				public float getNextDataPoint () {
-					return canvas.rEngine.getConcOfType (ReactionManager.MOLECULE_B);
+					return (float) canvas.rEngine.getConcOfType (ReactionManager.MOLECULE_B);
 				}
 				
 				@Override
@@ -453,7 +453,7 @@ public class MainWindow extends javax.swing.JFrame {
 			new DataSet () {
 				@Override
 				public float getNextDataPoint () {
-					return canvas.rEngine.getConcOfType (ReactionManager.MOLECULE_C);
+					return (float) canvas.rEngine.getConcOfType (ReactionManager.MOLECULE_C);
 				}
 				
 				@Override
@@ -462,7 +462,7 @@ public class MainWindow extends javax.swing.JFrame {
 				}
 			}
 		};
-		graphConcentrations = new GraphPanel (pGraph.getWidth (), pGraph.getHeight () / 2, maxMolecules / 1000, 1000, 10, datasetConcentrations);
+		graphConcentrations = new GraphPanel (pGraph.getWidth (), pGraph.getHeight () / 2, 10, 1000, 10, datasetConcentrations);
 		graphConcentrations.setTitle ("Graph of species concentrations against t");
 		graphConcentrations.setLabels ("t", "[X]");
 
@@ -485,16 +485,17 @@ public class MainWindow extends javax.swing.JFrame {
 		sliderEnthalpy.setMinimum (minEnthalpy * 100);
 		sliderEnthalpy.setMaximum (maxEnthalpy * 100);
 		sliderEnthalpy.setValue (DEFAULT_ENTHALPY * 100);
-		lblValueEnthalpy.setText ("" + (sliderEnthalpy.getValue () / 100f));
+		lblValueEnthalpy.setText ("" + (sliderEnthalpy.getValue () / 100.0));
 
 		sliderEa.setMinimum (minEa * 100);
 		sliderEa.setMaximum (maxEa * 100);
 		sliderEa.setValue (DEFAULT_EA * 100);
-		lblValueEa.setText ("" + (sliderEa.getValue () / 100f));
+		lblValueEa.setText ("" + (sliderEa.getValue () / 100.0));
 
-		sliderTemp.setMinimum (1);
+		sliderTemp.setMinimum (minTemperature);
 		sliderTemp.setMaximum (maxTemperature);
 		sliderTemp.setValue (DEFAULT_TEMP);
+		lblValueTemp.setText ("" + sliderTemp.getValue ());
 
 		sliderConcA.addChangeListener (new ChangeListener () {
 			@Override
@@ -516,8 +517,8 @@ public class MainWindow extends javax.swing.JFrame {
 			@Override
 			public void stateChanged (ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource ();
-				canvas.rEngine.setEnthalpy ((float) source.getValue () / 100f);
-				lblValueEnthalpy.setText ("" + (source.getValue () / 100f));
+				canvas.rEngine.setEnthalpy (source.getValue () / 100.0);
+				lblValueEnthalpy.setText ("" + (source.getValue () / 100.0));
 			}
 		});
 
@@ -525,8 +526,8 @@ public class MainWindow extends javax.swing.JFrame {
 			@Override
 			public void stateChanged (ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource ();
-				canvas.rEngine.setActivationEnergy ((float) source.getValue () / 100f);
-				lblValueEa.setText ("" + (source.getValue () / 100f));
+				canvas.rEngine.setActivationEnergy (source.getValue () / 100.0);
+				lblValueEa.setText ("" + (source.getValue () / 100.0));
 			}
 		});
 
@@ -606,7 +607,6 @@ public class MainWindow extends javax.swing.JFrame {
 				canvas.addNRandomParticles (sliderConcA.getValue (), sliderTemp.getValue (), ReactionManager.MOLECULE_A);
 				canvas.addNRandomParticles (sliderConcB.getValue (), sliderTemp.getValue (), ReactionManager.MOLECULE_B);
 				canvas.repaint ();
-				System.out.println (sliderTemp.getValue ());
 			}
 		});
 	}
