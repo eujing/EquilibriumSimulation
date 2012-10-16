@@ -84,11 +84,11 @@ public class ReactionManager {
 
 		switch (moleculeType) {
 			case ReactionManager.MOLECULE_A:
-				return concA / 1000.0;
+				return concA;
 			case ReactionManager.MOLECULE_B:
-				return concB / 1000.0;
+				return concB;
 			case ReactionManager.MOLECULE_C:
-				return concC / 1000.0;
+				return concC;
 		}
 		
 		return 0;

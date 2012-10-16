@@ -8,6 +8,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -33,6 +34,7 @@ public class GraphPanel extends JPanel implements ActionListener {
 	private Line2D.Float[] xAxis;
 	private Line2D.Float[] yAxis;
 	private int[] xCoords;
+	private DecimalFormat df = new DecimalFormat ("0.00E0");
 
 	public GraphPanel (int width, int height, int bufferSize, int freq, DataSet[] dataCollectors) {
 		this.width = width;
@@ -84,7 +86,7 @@ public class GraphPanel extends JPanel implements ActionListener {
 		this.xLabel = xLabel;
 		this.yLabel = yLabel;
 	}
-	
+
 	public void reset () {
 		this.maxY = 0;
 		for (int i = 0; i < dataCollectors.length; i++) {
@@ -117,13 +119,13 @@ public class GraphPanel extends JPanel implements ActionListener {
 				set.currSum -= buffers[i].get (buffers[i].size () - sampleSize);
 				trendBuffers[i].add (set.currSum / sampleSize);
 			}
-			
+
 			if (trendBuffers[i].size () >= bufferSize) {
 				trendBuffers[i].remove (0);
 			}
 		}
 	}
-	
+
 	private void autoScaleAxis () {
 		float tmpMax = 0;
 		for (ArrayList<Float> buffer : buffers) {
@@ -133,7 +135,7 @@ public class GraphPanel extends JPanel implements ActionListener {
 				}
 			}
 		}
-		
+
 		if (tmpMax > this.maxY) {
 			maxY = (int) (tmpMax * 1.5);
 		}
@@ -177,9 +179,9 @@ public class GraphPanel extends JPanel implements ActionListener {
 		drawStringFromBack (g2, xLabel, width - border, height - border + 5);
 		drawStringFromBack (g2, yLabel, border + padding - 5, border + 7);
 		drawCenteredString (g2, title, width / 2, border);
-		
+
 		autoScaleAxis ();
-		
+
 		//Draw graphs
 		for (int i = 0; i < dataCollectors.length; i++) {
 			ArrayList<Float> buffer = buffers[i];
@@ -191,7 +193,7 @@ public class GraphPanel extends JPanel implements ActionListener {
 			g2.setColor (dataCollectors[i].getColor ());
 			g2.drawPolyline (xCoords, yCoords, yCoords.length < bufferSize ? yCoords.length : bufferSize);
 		}
-		
+
 		//Draw trendlines
 		for (int i = 0; i < dataCollectors.length; i++) {
 			ArrayList<Float> buffer = trendBuffers[i];
@@ -202,6 +204,10 @@ public class GraphPanel extends JPanel implements ActionListener {
 
 			g2.setColor (Color.YELLOW);
 			g2.drawPolyline (xCoords, yCoords, yCoords.length < bufferSize ? yCoords.length : bufferSize);
+			g2.setColor (Color.BLACK);
+			if (buffer.size () >= 1) {
+				drawStringFromBack (g2, df.format (buffer.get (buffer.size () - 1)), xCoords[buffer.size ()], yCoords[yCoords.length - 1] - 5);
+			}
 		}
 	}
 }
