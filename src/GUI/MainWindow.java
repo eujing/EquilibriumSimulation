@@ -17,14 +17,14 @@ import javax.swing.event.ChangeListener;
 
 public class MainWindow extends javax.swing.JFrame {
 
-	public static final int maxMolecules = 40000;
+	public static final int maxMolecules = 20000;
 	public static final int minEnthalpy = -50;
 	public static final int maxEnthalpy = 50;
 	public static final int minEa = 0;
 	public static final int maxEa = 50;
 	public static final int minTemperature = 50;
 	public static final int maxTemperature = 2000;
-	public static final int DEFAULT_CONC = maxMolecules / 4;
+	public static final int DEFAULT_CONC = 5000;
 	public static final Color DEFAULT_COLOR_A = new Color (51, 204, 255);
 	public static final Color DEFAULT_COLOR_B = new Color (255, 51, 51);
 	public static final Color DEFAULT_COLOR_C = new Color (102, 0, 102);
@@ -68,6 +68,9 @@ public class MainWindow extends javax.swing.JFrame {
         bColorC = new javax.swing.JButton();
         lblValueConcA = new javax.swing.JLabel();
         lblValueConcB = new javax.swing.JLabel();
+        lblSliderConcC = new javax.swing.JLabel();
+        lblValueConcC = new javax.swing.JLabel();
+        sliderConcC = new javax.swing.JSlider();
         pDynamicParam = new javax.swing.JPanel();
         sliderTemp = new javax.swing.JSlider();
         sliderEnthalpy = new javax.swing.JSlider();
@@ -155,6 +158,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         lblValueConcB.setText("[B]");
 
+        lblSliderConcC.setText("Initial C Concentration:");
+
+        lblValueConcC.setText("[C]");
+
         javax.swing.GroupLayout pReactionParamLayout = new javax.swing.GroupLayout(pReactionParam);
         pReactionParam.setLayout(pReactionParamLayout);
         pReactionParamLayout.setHorizontalGroup(
@@ -194,17 +201,24 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(lblSliderConcA))
                     .addGroup(pReactionParamLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(lblSliderConcB)))
+                        .addComponent(lblSliderConcB))
+                    .addGroup(pReactionParamLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(lblSliderConcC))
+                    .addGroup(pReactionParamLayout.createSequentialGroup()
+                        .addGap(147, 147, 147)
+                        .addComponent(lblValueConcC)))
                 .addContainerGap())
+            .addComponent(sliderConcC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pReactionParamLayout.setVerticalGroup(
             pReactionParamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pReactionParamLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(pReactionParamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSliderConcA)
                     .addComponent(lblValueConcA))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(sliderConcA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pReactionParamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -223,11 +237,17 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(pColorB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblColorB))
                 .addGap(18, 18, 18)
+                .addGroup(pReactionParamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSliderConcC)
+                    .addComponent(lblValueConcC))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sliderConcC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pReactionParamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(bColorC)
                     .addComponent(pColorC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblColorC))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pDynamicParam.setBorder(javax.swing.BorderFactory.createTitledBorder("Dynamic Parameters"));
@@ -301,7 +321,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel1.add(bReset);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Chemical Equation"));
-        jPanel2.setLayout(new java.awt.GridLayout());
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         eqnA.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         eqnA.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -351,7 +371,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pReactionParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pDynamicParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -500,15 +520,20 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 	private void initSliders () {
-		sliderConcA.setMinimum (1);
-		sliderConcA.setMaximum (maxMolecules / 2);
+		sliderConcA.setMinimum (0);
+		sliderConcA.setMaximum (maxMolecules);
 		sliderConcA.setValue (DEFAULT_CONC);
 		lblValueConcA.setText ("" + sliderConcA.getValue ());
 
-		sliderConcB.setMinimum (1);
-		sliderConcB.setMaximum (maxMolecules / 2);
+		sliderConcB.setMinimum (0);
+		sliderConcB.setMaximum (maxMolecules);
 		sliderConcB.setValue (DEFAULT_CONC);
 		lblValueConcB.setText ("" + sliderConcB.getValue ());
+		
+		sliderConcC.setMinimum (0);
+		sliderConcC.setMaximum (maxMolecules);
+		sliderConcC.setValue (0);
+		lblValueConcC.setText ("" + sliderConcC.getValue ());
 
 		sliderEnthalpy.setMinimum (minEnthalpy * 100);
 		sliderEnthalpy.setMaximum (maxEnthalpy * 100);
@@ -538,6 +563,14 @@ public class MainWindow extends javax.swing.JFrame {
 			public void stateChanged (ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource ();
 				lblValueConcB.setText ("" + source.getValue ());
+			}
+		});
+		
+		sliderConcC.addChangeListener (new ChangeListener () {
+			@Override
+			public void stateChanged (ChangeEvent e) {
+				JSlider source = (JSlider) e.getSource ();
+				lblValueConcC.setText ("" + source.getValue ());
 			}
 		});
 
@@ -607,6 +640,7 @@ public class MainWindow extends javax.swing.JFrame {
 				if (firstRun) {
 					canvas.addNRandomParticles (sliderConcA.getValue (), sliderTemp.getValue (), ReactionManager.MOLECULE_A);
 					canvas.addNRandomParticles (sliderConcB.getValue (), sliderTemp.getValue (), ReactionManager.MOLECULE_B);
+					canvas.addNRandomParticles (sliderConcC.getValue (), sliderTemp.getValue (), ReactionManager.MOLECULE_C);
 					firstRun = false;
 				}
 				canvas.startSimulation ();
@@ -635,6 +669,7 @@ public class MainWindow extends javax.swing.JFrame {
 				canvas.rEngine.pEngine.deleteAllParticles ();
 				canvas.addNRandomParticles (sliderConcA.getValue (), sliderTemp.getValue (), ReactionManager.MOLECULE_A);
 				canvas.addNRandomParticles (sliderConcB.getValue (), sliderTemp.getValue (), ReactionManager.MOLECULE_B);
+				canvas.addNRandomParticles (sliderConcC.getValue (), sliderTemp.getValue (), ReactionManager.MOLECULE_C);
 				canvas.repaint ();
 			}
 		});
@@ -688,9 +723,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblEnthalpyChange;
     private javax.swing.JLabel lblSliderConcA;
     private javax.swing.JLabel lblSliderConcB;
+    private javax.swing.JLabel lblSliderConcC;
     private javax.swing.JLabel lblTemp;
     private javax.swing.JLabel lblValueConcA;
     private javax.swing.JLabel lblValueConcB;
+    private javax.swing.JLabel lblValueConcC;
     private javax.swing.JLabel lblValueEa;
     private javax.swing.JLabel lblValueEnthalpy;
     private javax.swing.JLabel lblValueTemp;
@@ -704,6 +741,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel pReactionParam;
     private javax.swing.JSlider sliderConcA;
     private javax.swing.JSlider sliderConcB;
+    private javax.swing.JSlider sliderConcC;
     private javax.swing.JSlider sliderEa;
     private javax.swing.JSlider sliderEnthalpy;
     private javax.swing.JSlider sliderTemp;

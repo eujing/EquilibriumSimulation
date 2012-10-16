@@ -41,7 +41,7 @@ public class GraphPanel extends JPanel implements ActionListener {
 		this.bufferSize = bufferSize;
 
 		this.setPreferredSize (new Dimension (width, height));
-		this.setBackground (Color.lightGray);
+		this.setBackground (Color.gray);
 		this.setForeground (Color.black);
 		buffers = (ArrayList<Float>[]) new ArrayList[dataCollectors.length];
 		trendBuffers = (ArrayList<Float>[]) new ArrayList[dataCollectors.length];
