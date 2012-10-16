@@ -3,19 +3,22 @@ package Chemistry;
 import Collision.*;
 import java.awt.Color;
 
-public abstract class Molecule extends Physics.PhysicsCompatible implements IReactable {
+public class Molecule extends Physics.PhysicsCompatible {
+
 	private int moleculeType;
 	private Color color;
 	private double mass;
+	private IReactable reactable;
 
-	public Molecule (float x, float y, float dx, float dy, int type) {
-		super (x, y, dx, dy, (float) Math.sqrt (Molecule.matchMass (type)));
+	public Molecule (double x, double y, double dx, double dy, int type, IReactable reactable) {
+		super (x, y, dx, dy, Math.sqrt (Molecule.matchMass (type)));
 		this.moleculeType = type;
-		this.color = matchColor (moleculeType);
+		this.reactable = reactable;
+		this.color = reactable.matchColor (moleculeType);
 		this.setMass (Molecule.matchMass (type));
 	}
 
-	public static float matchMass (int moleculeType) {
+	public static double matchMass (int moleculeType) {
 		switch (moleculeType) {
 			case ReactionManager.MOLECULE_A:
 				return ReactionManager.MASS_A;
@@ -35,7 +38,7 @@ public abstract class Molecule extends Physics.PhysicsCompatible implements IRea
 	public int getType () {
 		return this.moleculeType;
 	}
-	
+
 	@Override
 	public double getMass () {
 		return this.mass;
@@ -46,17 +49,17 @@ public abstract class Molecule extends Physics.PhysicsCompatible implements IRea
 		return 0.5f * this.mass * vel * vel;
 	}
 
-	public final void setMass (float mass) {
+	public final void setMass (double mass) {
 		this.mass = mass;
 		this.r = Math.sqrt (mass);
 	}
 
 	private void convertTo (int moleculeType) {
-		float newMass = Molecule.matchMass (moleculeType);
-		float velRatio = (float) Math.sqrt (this.mass / newMass);
+		double newMass = Molecule.matchMass (moleculeType);
+		double velRatio = Math.sqrt (this.mass / newMass);
 		this.v.scale (velRatio);
 		this.setMass (newMass);
-		this.color = matchColor (moleculeType);
+		this.color = reactable.matchColor (moleculeType);
 		this.moleculeType = moleculeType;
 	}
 
@@ -69,13 +72,13 @@ public abstract class Molecule extends Physics.PhysicsCompatible implements IRea
 
 		switch (reaction) {
 			case ReactionManager.FORWARD_REACTION:
-				if (energy > getActivationEnergy ()) {
+				if (energy > reactable.getActivationEnergy ()) {
 					m1.convertTo (ReactionManager.MOLECULE_C);
 					m2.convertTo (ReactionManager.MOLECULE_C);
 				}
 				break;
 			case ReactionManager.BACKWARD_REACTION:
-				if (energy > getActivationEnergy () - getEnthalpy ()) {
+				if (energy > reactable.getActivationEnergy () - reactable.getEnthalpy ()) {
 					m1.convertTo (ReactionManager.MOLECULE_A);
 					m2.convertTo (ReactionManager.MOLECULE_B);
 					break;

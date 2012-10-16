@@ -3,7 +3,7 @@ package Collision;
 import QuadTree.*;
 import java.util.ArrayList;
 
-public class Physics <T extends Physics.PhysicsCompatible> {
+public class Physics<T extends Physics.PhysicsCompatible> {
 
 	private static final boolean DEBUG_ENERGY = false;
 	private static final boolean DEBUG_COLLISION = false;
@@ -11,12 +11,13 @@ public class Physics <T extends Physics.PhysicsCompatible> {
 	private float height;
 	private QuadTree qTree;
 	private ArrayList<T> particles;
-	
+
 	public static abstract class PhysicsCompatible extends Particle implements ICollidable {
-	public PhysicsCompatible (double x, double y, double dx, double dy, double r) {
-		super (x, y, dx, dy, r);
+
+		public PhysicsCompatible (double x, double y, double dx, double dy, double r) {
+			super (x, y, dx, dy, r);
+		}
 	}
-}
 
 	public Physics (float width, float height) {
 		this.width = width;
@@ -92,13 +93,13 @@ public class Physics <T extends Physics.PhysicsCompatible> {
 					double sinPhi, cosPhi, distance;
 
 					//Get trigo angle shifts needed for collision to be 1D
-					distance = (float) Math.sqrt (po_dx * po_dx + po_dy * po_dy);
+					distance = Math.sqrt (po_dx * po_dx + po_dy * po_dy);
 					sinPhi = po_dy / distance;
 					cosPhi = po_dx / distance;
 
 					//Push apart
 					double target = p.r + o.r;
-					double factor = (distance - target) / distance * 0.5f;
+					double factor = (distance - target) / distance * 0.5;
 					p.setPosition (p.getX () - po_dx * factor, p.getY () - po_dy * factor);
 					o.setPosition (o.getX () + po_dx * factor, o.getY () + po_dy * factor);
 
@@ -141,7 +142,7 @@ public class Physics <T extends Physics.PhysicsCompatible> {
 					}
 
 					p.afterCollisionHandling (p, o);
-					
+
 					if (DEBUG_ENERGY) {
 						logEnergyDebug ("After collisions");
 					}

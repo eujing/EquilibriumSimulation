@@ -25,11 +25,11 @@ public class MainWindow extends javax.swing.JFrame {
 	public static final int minTemperature = 50;
 	public static final int maxTemperature = 2000;
 	public static final int DEFAULT_CONC = maxMolecules / 4;
-	public static final Color DEFAULT_COLOR_A = new Color (0, 250, 154);
-	public static final Color DEFAULT_COLOR_B = new Color (0, 255, 255);
-	public static final Color DEFAULT_COLOR_C = new Color (255, 20, 147);
+	public static final Color DEFAULT_COLOR_A = new Color (51, 204, 255);
+	public static final Color DEFAULT_COLOR_B = new Color (255, 51, 51);
+	public static final Color DEFAULT_COLOR_C = new Color (102, 0, 102);
 	public static final int DEFAULT_ENTHALPY = -10;
-	public static final int DEFAULT_EA = 10;
+	public static final int DEFAULT_EA = 30;
 	public static final int DEFAULT_TEMP = 298;
 	private CanvasPanel canvas;
 	private GraphPanel graphReactionQuotient;
@@ -43,6 +43,7 @@ public class MainWindow extends javax.swing.JFrame {
 		initGraph ();
 		initSliders ();
 		initButtons ();
+		initColors ();
 		this.pack ();
 	}
 
@@ -77,11 +78,16 @@ public class MainWindow extends javax.swing.JFrame {
         lblValueEnthalpy = new javax.swing.JLabel();
         lblValueEa = new javax.swing.JLabel();
         lblValueTemp = new javax.swing.JLabel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         jPanel1 = new javax.swing.JPanel();
         bStart = new javax.swing.JButton();
         bStop = new javax.swing.JButton();
         bReset = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        eqnA = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        eqnB = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        eqnC = new javax.swing.JLabel();
         tpViews = new javax.swing.JTabbedPane();
         pCanvas = new javax.swing.JPanel();
         pGraph = new javax.swing.JPanel();
@@ -245,9 +251,9 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(pDynamicParamLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pDynamicParamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sliderEnthalpy, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-                    .addComponent(sliderEa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sliderTemp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sliderEnthalpy, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(sliderEa, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(sliderTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(pDynamicParamLayout.createSequentialGroup()
                         .addGroup(pDynamicParamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblEnthalpyChange)
@@ -294,37 +300,58 @@ public class MainWindow extends javax.swing.JFrame {
         bReset.setText("Reset");
         jPanel1.add(bReset);
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Chemical Equation"));
+        jPanel2.setLayout(new java.awt.GridLayout());
+
+        eqnA.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        eqnA.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        eqnA.setText("A (g)");
+        jPanel2.add(eqnA);
+
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("+");
+        jPanel2.add(jLabel2);
+
+        eqnB.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        eqnB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        eqnB.setText("B (g)");
+        jPanel2.add(eqnB);
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("⇌");
+        jPanel2.add(jLabel4);
+
+        eqnC.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        eqnC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        eqnC.setText("2 C (g)");
+        jPanel2.add(eqnC);
+
         javax.swing.GroupLayout pParamsLayout = new javax.swing.GroupLayout(pParams);
         pParams.setLayout(pParamsLayout);
         pParamsLayout.setHorizontalGroup(
             pParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pParamsLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pParamsLayout.createSequentialGroup()
-                        .addGroup(pParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pParamsLayout.createSequentialGroup()
-                                .addGap(149, 149, 149)
-                                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pParamsLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(pReactionParam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(pParamsLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(pDynamicParam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pParamsLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(pParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(pReactionParam, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pDynamicParam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 6, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pParamsLayout.setVerticalGroup(
             pParamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pParamsLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pReactionParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(pDynamicParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -337,11 +364,11 @@ public class MainWindow extends javax.swing.JFrame {
         pCanvas.setLayout(pCanvasLayout);
         pCanvasLayout.setHorizontalGroup(
             pCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1032, Short.MAX_VALUE)
+            .addGap(0, 1156, Short.MAX_VALUE)
         );
         pCanvasLayout.setVerticalGroup(
             pCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 712, Short.MAX_VALUE)
+            .addGap(0, 846, Short.MAX_VALUE)
         );
 
         tpViews.addTab("Molecules", pCanvas);
@@ -350,11 +377,11 @@ public class MainWindow extends javax.swing.JFrame {
         pGraph.setLayout(pGraphLayout);
         pGraphLayout.setHorizontalGroup(
             pGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1032, Short.MAX_VALUE)
+            .addGap(0, 1156, Short.MAX_VALUE)
         );
         pGraphLayout.setVerticalGroup(
             pGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 712, Short.MAX_VALUE)
+            .addGap(0, 846, Short.MAX_VALUE)
         );
 
         tpViews.addTab("Trends", pGraph);
@@ -367,7 +394,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(tpViews)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pParams, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,12 +445,12 @@ public class MainWindow extends javax.swing.JFrame {
 				
 				@Override
 				public Color getColor () {
-					return Color.CYAN;
+					return Color.BLUE;
 				}
 			}
 		};
 		
-		graphReactionQuotient = new GraphPanel (pGraph.getWidth (), pGraph.getHeight () / 2, 10, 1000, 10, datasetReactionQuotient);
+		graphReactionQuotient = new GraphPanel (pGraph.getWidth (), pGraph.getHeight () / 2, 1000, 10, datasetReactionQuotient);
 		graphReactionQuotient.setTitle ("Graph of Q against t");
 		graphReactionQuotient.setLabels ("t", "Q");
 
@@ -462,10 +489,11 @@ public class MainWindow extends javax.swing.JFrame {
 				}
 			}
 		};
-		graphConcentrations = new GraphPanel (pGraph.getWidth (), pGraph.getHeight () / 2, 10, 1000, 10, datasetConcentrations);
+		graphConcentrations = new GraphPanel (pGraph.getWidth (), pGraph.getHeight () / 2, 1000, 10, datasetConcentrations);
 		graphConcentrations.setTitle ("Graph of species concentrations against t");
 		graphConcentrations.setLabels ("t", "[X]");
 
+		pGraph.setBackground (Color.WHITE);
 		pGraph.setLayout (new GridLayout (2, 1));
 		pGraph.add (graphReactionQuotient);
 		pGraph.add (graphConcentrations);
@@ -542,33 +570,34 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 	private void initButtons () {
-		pColorA.setBackground (colorA);
+		
 		bColorA.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				Color newColor = JColorChooser.showDialog (rootPane, "Choose a color", colorA);
 				colorA = newColor;
 				pColorA.setBackground (colorA);
+				eqnA.setForeground (colorA);
 			}
 		});
 		
-		pColorB.setBackground (colorB);
 		bColorB.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				Color newColor = JColorChooser.showDialog (rootPane, "Choose a color", colorB);
 				colorB = newColor;
 				pColorB.setBackground (colorB);
+				eqnB.setForeground (colorB);
 			}
 		});
 		
-		pColorC.setBackground (colorC);
 		bColorC.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
 				Color newColor = JColorChooser.showDialog (rootPane, "Choose a color", colorC);
 				colorC = newColor;
 				pColorC.setBackground (colorC);
+				eqnC.setForeground (colorC);
 			}
 		});
 
@@ -610,6 +639,15 @@ public class MainWindow extends javax.swing.JFrame {
 			}
 		});
 	}
+	
+	private void initColors () {
+		pColorA.setBackground (colorA);
+		eqnA.setForeground (colorA);
+		pColorB.setBackground (colorB);
+		eqnB.setForeground (colorB);
+		pColorC.setBackground (colorC);
+		eqnC.setForeground (colorC);
+	}
 
 	public static void main (String args[]) {
 		try {
@@ -636,8 +674,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton bReset;
     private javax.swing.JButton bStart;
     private javax.swing.JButton bStop;
-    private javax.swing.Box.Filler filler1;
+    private javax.swing.JLabel eqnA;
+    private javax.swing.JLabel eqnB;
+    private javax.swing.JLabel eqnC;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblActivationEnergy;
     private javax.swing.JLabel lblColorA;
     private javax.swing.JLabel lblColorB;

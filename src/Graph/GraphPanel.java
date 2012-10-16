@@ -16,7 +16,7 @@ public class GraphPanel extends JPanel implements ActionListener {
 
 	private static final int padding = 10;
 	private static final int border = 20;
-	private static final int sampleSize = 200;
+	private static final int sampleSize = 50;
 	private int width;
 	private int height;
 	private int maxY;
@@ -34,13 +34,15 @@ public class GraphPanel extends JPanel implements ActionListener {
 	private Line2D.Float[] yAxis;
 	private int[] xCoords;
 
-	public GraphPanel (int width, int height, int maxY, int bufferSize, int freq, DataSet[] dataCollectors) {
+	public GraphPanel (int width, int height, int bufferSize, int freq, DataSet[] dataCollectors) {
 		this.width = width;
 		this.height = height;
-		this.maxY = maxY;
+		this.maxY = 0;
 		this.bufferSize = bufferSize;
 
 		this.setPreferredSize (new Dimension (width, height));
+		this.setBackground (Color.lightGray);
+		this.setForeground (Color.black);
 		buffers = (ArrayList<Float>[]) new ArrayList[dataCollectors.length];
 		trendBuffers = (ArrayList<Float>[]) new ArrayList[dataCollectors.length];
 
@@ -84,6 +86,7 @@ public class GraphPanel extends JPanel implements ActionListener {
 	}
 	
 	public void reset () {
+		this.maxY = 0;
 		for (int i = 0; i < dataCollectors.length; i++) {
 			dataCollectors[i].reset ();
 			buffers[i].clear ();
@@ -131,7 +134,9 @@ public class GraphPanel extends JPanel implements ActionListener {
 			}
 		}
 		
-		this.maxY = (int) (1.5 * tmpMax);
+		if (tmpMax > this.maxY) {
+			maxY = (int) (tmpMax * 1.5);
+		}
 	}
 
 	public void startPlotting () {

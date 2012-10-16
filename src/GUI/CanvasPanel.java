@@ -30,7 +30,7 @@ public class CanvasPanel extends JPanel implements Runnable {
 		this.reactable = reactable;
 		this.maxFps = fps;
 		rEngine = new ReactionManager (new Physics<Molecule> (width, height));
-		this.setBackground (Color.WHITE);
+		this.setBackground (Color.white);
 	}
 
 	public void addNRandomParticles (int n, int temp, int type) {
@@ -39,22 +39,7 @@ public class CanvasPanel extends JPanel implements Runnable {
 		for (int i = 0; i < n; i++) {
 			rEngine.pEngine.addParticle (new Molecule (
 				this.getWidth () * rand.nextFloat (), this.getHeight () * rand.nextFloat (),
-				(rand.nextInt (3) - 1) * factor, (rand.nextInt (3) - 1) * factor, type) {
-				@Override
-				public Color matchColor (int moleculeType) {
-					return reactable.matchColor (moleculeType);
-				}
-				
-				@Override
-				public double getEnthalpy () {
-					return reactable.getEnthalpy ();
-				}
-				
-				@Override
-				public double getActivationEnergy () {
-					return reactable.getActivationEnergy ();
-				}
-			});
+				(rand.nextInt (3) - 1) * factor, (rand.nextInt (3) - 1) * factor, type, reactable));
 		}
 	}
 
