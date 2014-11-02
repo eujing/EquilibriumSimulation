@@ -1,0 +1,27 @@
+Equilibrium Simulation
+======================
+
+A chemistry project to demonstrate a reaction going to equilibrium, as well as the various factors that can affect the equilibrium. This is basically a 2D collision simulator with some elements of chemistry.
+
+Molecules are modelled as circles and stored in quadtrees for efficient collision detection. Changes in the dynamic parameters affect the physical properties of each molecule only (approximations).
+
+Parameters
+----------
+
+Concentration (number) of each molecule can be set before running the simulation, but cannot be changed during.
+
+Dynamic parameters:
+ - Enthalpy change of reaction
+ - Activation energy of reaction
+ - Temperature of system
+
+Results (Trends)
+----------------
+The graphs visualize certain values of the reaction as it is happening. The yellow lines indicate the moving average of the particular value.
+Changes in the dynamic parameters should roughly be reflected in the graphs, and is an approximation of what would actually happen.
+ - Q: reaction quotient
+ - t: time
+ - species concentration: number of molecules corresponding to each species
+
+
+
